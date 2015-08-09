@@ -1,13 +1,30 @@
 
 
-<div ng-app="">
+<div ng-app="App">
     
-    <h1>Hello World</h1>
+    <h1>Welcome to my app!</h1>
     
-    <input ng-model="name"/>
-     
-    <div>
-        {{name}}
+    <div ng-controller="AccountCtrl">
+        
+        <h2>Account Manager</h2>
+        
+        <h3>Accounts</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="account in accounts">
+                    <td>{{account.first_name}} {{account.last_name}}</td>
+                    <td>{{account.email}}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
     </div>
      
 </div>
