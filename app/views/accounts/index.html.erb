@@ -5,10 +5,8 @@
 <table>
   <thead>
     <tr>
-      <th>First name</th>
-      <th>Last name</th>
+      <th>Name</th>
       <th>Email</th>
-      <th>Password</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,10 +14,8 @@
   <tbody>
     <% @accounts.each do |account| %>
       <tr>
-        <td><%= account.first_name %></td>
-        <td><%= account.last_name %></td>
+        <td><%= account.name %></td>
         <td><%= account.email %></td>
-        <td><%= account.password %></td>
         <td><%= link_to 'Show', account %></td>
         <td><%= link_to 'Edit', edit_account_path(account) %></td>
         <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>

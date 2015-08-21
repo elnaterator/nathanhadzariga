@@ -18,7 +18,7 @@ class AccountsControllerTest < ActionController::TestCase
 
   test "should create account" do
     assert_difference('Account.count') do
-      post :create, account: { email: @account.email, first_name: @account.first_name, last_name: @account.last_name, password: @account.password }
+      post :create, account: { email: @account.email, name: @account.name }
     end
 
     assert_redirected_to account_path(assigns(:account))
@@ -35,7 +35,7 @@ class AccountsControllerTest < ActionController::TestCase
   end
 
   test "should update account" do
-    patch :update, id: @account, account: { email: @account.email, first_name: @account.first_name, last_name: @account.last_name, password: @account.password }
+    patch :update, id: @account, account: { email: @account.email, name: @account.name }
     assert_redirected_to account_path(assigns(:account))
   end
 
