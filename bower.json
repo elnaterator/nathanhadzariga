@@ -1,0 +1,12 @@
+{
+  "name": "nathanhadzariga",
+  "authors": [
+    "Nathan Hadzariga <n.hadzariga@gmail.com>"
+  ],
+  "private": true,
+  "dependencies": {
+    "lodash": "~3.10.1",
+    "bootstrap-sass": "bootstrap-sass-official#~3.3.6",
+    "normalize-scss": "normalize.scss#~4.0.3"
+  }
+}
