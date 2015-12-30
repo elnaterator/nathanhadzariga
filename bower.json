@@ -5,8 +5,8 @@
   ],
   "private": true,
   "dependencies": {
-    "lodash": "~3.10.1",
     "bootstrap-sass": "bootstrap-sass-official#~3.3.6",
-    "normalize-scss": "normalize.scss#~4.0.3"
+    "lodash": "~3.10.1",
+    "jquery": "~2.1.4"
   }
 }
