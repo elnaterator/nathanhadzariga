@@ -11,5 +11,5 @@
 // about supported directives.
 //
 //= require turbolinks
-//= require jquery/dist/jquery
+//= require angular/angular
 //= require_tree .
