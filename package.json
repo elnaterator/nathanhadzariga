@@ -1,0 +1,14 @@
+{
+  "name": "nathanhadzariga",
+  "version": "1.0.0",
+  "description": "== README",
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.16",
+    "karma-coffee-preprocessor": "^0.3.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.2",
+    "phantomjs": "^1.9.19"
+  }
+}
