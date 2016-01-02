@@ -1,5 +1,7 @@
 app = angular.module('homeApp',[])
 
-app.directive('nhWelcome', ->
+app.controller 'welcomeCtrl', ($scope) ->
+  $scope.name = 'Billson';
+
+app.directive 'nhWelcome', ->
   { templateUrl: '/template/welcome' }
-)
