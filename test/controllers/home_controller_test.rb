@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class HomeControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  def test_index_page
+    get :index
+    assert_response :success
+  end
+
 end
