@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "== README",
   "devDependencies": {
+    "angular-mocks": "^1.4.8",
     "coffee-script": "^1.10.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.16",
