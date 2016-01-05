@@ -8,10 +8,12 @@ one:
   id: 1
   name: 'Andy Anderson'
   email: 'andy@test.com'
+  password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
 # column: value
 #
 two:
   id: 2
   name: 'Bill Billson'
   email: 'bill@test.com'
+  password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
 #  column: value

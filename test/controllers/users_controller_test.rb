@@ -15,7 +15,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create user" do
     assert_difference('User.count') do
-      post :create, user: { name: 'Henry Henderson', email: 'henry@test.com' }
+      post :create, user: { name: 'Henry Henderson', email: 'henry@test.com', password: 'hello123', password_confirmation: 'hello123' }
     end
     assert_response :success
     user = JSON.parse(@response.body)
