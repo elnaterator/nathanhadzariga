@@ -6,6 +6,34 @@
     this is a well
   </div>
 
-  <div ng-controller="welcomeCtrl" nh-welcome></div>
+  <div id="users" ng-controller="UsersCtrl">
+
+    <div id="user-list" ng-init="fetchUsers()">
+      <h1>Users</h1>
+      <ul>
+        <li ng-repeat="user in users">{{user.name}} | {{user.email}} |
+          <a href ng-click="editUser(user.id)">edit</a> |
+          <a href ng-click="deleteUser(user.id)">delete</a>
+        </li>
+      </ul>
+    </div>
+
+    <div id="user-form" ng-init="editMode = false">
+      <h1>{{(editMode ? "Edit" : "New")}} User</h1>
+      <div ng-show="editMode">
+        id: <span ng-bind="user.id"></span>
+      </div>
+      <div>
+        name: <input ng-model="user.name"/>
+      </div>
+      <div>
+        email: <input ng-model="user.email"/>
+      </div>
+      <button ng-hide="editMode" ng-click="createUser()">Create user</button>
+      <button ng-show="editMode" ng-click="updateUser()">Update user</button>
+      <button ng-show="editMode" ng-click="cancelEdit()">Cancel</button>
+    </div>
+
+  </div>
 
 </div>

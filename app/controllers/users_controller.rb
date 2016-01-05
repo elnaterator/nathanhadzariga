@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
+  skip_before_action :verify_authenticity_token
 
   # GET /users
   def index
-    @users = User.all.order(id: :desc)
+    @users = User.all.order(id: :asc)
   end
 
   # GET /users/1

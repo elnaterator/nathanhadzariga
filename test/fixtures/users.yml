@@ -5,11 +5,13 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
+  id: 1
   name: 'Andy Anderson'
   email: 'andy@test.com'
 # column: value
 #
 two:
+  id: 2
   name: 'Bill Billson'
   email: 'bill@test.com'
 #  column: value
