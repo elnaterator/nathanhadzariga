@@ -8,6 +8,10 @@
 
   <div id="users" ng-controller="UsersCtrl">
 
+    <div class="alert alert-danger" ng-repeat="errorMsg in getErrors()">
+      {{errorMsg}}
+    </div>
+
     <div id="user-list" ng-init="fetchUsers()">
       <h1>Users</h1>
       <ul>
