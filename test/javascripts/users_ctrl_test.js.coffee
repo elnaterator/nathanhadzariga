@@ -69,6 +69,8 @@ describe 'UsersCtrl', () ->
     expect($scope.user.email).toBeUndefined()
     expect($scope.editMode).toBe(false)
 
+  # scope state modifiers only
+
   it 'sets up editing of a user', () ->
     $scope.users = [{id:123,name:'Bill',email:'bill@bill.com'},{id:456,name:'Joe',email:'joe@jope.com'}]
     $scope.editMode = false
@@ -86,3 +88,35 @@ describe 'UsersCtrl', () ->
     expect($scope.user.id).toBeUndefined()
     expect($scope.user.name).toBeUndefined()
     expect($scope.user.email).toBeUndefined()
+
+  # error handling
+
+  describe 'errorHandler', () ->
+
+    it 'handles errors from fetchUsers', () ->
+      $httpBackend.expect('GET', '/users').respond(422, {"email":["can't be blank","is invalid"],"name":["is invalid"]})
+      $scope.fetchUsers()
+      $httpBackend.flush()
+      expect($scope.hasErrors()).toBe(true)
+      expect($scope.errors.length).toBe(2)
+      expect($scope.errors[0]).toBe("Email can't be blank")
+      expect($scope.errors[1]).toBe("Name is invalid")
+
+    it 'handles errors from createUser', () ->
+      $httpBackend.expect('POST', '/users').respond(422, {"email":["can't be blank","is invalid"],"name":["is invalid"]})
+      $scope.createUser()
+      $httpBackend.flush()
+      expect($scope.hasErrors()).toBe(true)
+      expect($scope.errors.length).toBe(2)
+      expect($scope.errors[0]).toBe("Email can't be blank")
+      expect($scope.errors[1]).toBe("Name is invalid")
+
+    it 'handles errors from updateUser', () ->
+      $httpBackend.expect('PATCH', '/users/123').respond(422, {"email":["can't be blank","is invalid"],"name":["is invalid"]})
+      $scope.user = {id:123,name:'Joe',email:'joe@email.com'}
+      $scope.updateUser()
+      $httpBackend.flush()
+      expect($scope.hasErrors()).toBe(true)
+      expect($scope.errors.length).toBe(2)
+      expect($scope.errors[0]).toBe("Email can't be blank")
+      expect($scope.errors[1]).toBe("Name is invalid")
