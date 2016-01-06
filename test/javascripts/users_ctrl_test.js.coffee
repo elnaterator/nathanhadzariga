@@ -29,7 +29,10 @@ describe 'UsersCtrl', () ->
   it 'creates a user', () ->
     $scope.user.name = 'Bill'
     $scope.user.email = 'bill@email.com'
-    $httpBackend.expect('POST', '/users', {name: 'Bill', email: 'bill@email.com'})
+    $scope.user.password = 'password'
+    $scope.user.password_confirmation = 'password'
+    $httpBackend.expect('POST', '/users',
+      {name: 'Bill', email: 'bill@email.com', password: 'password', password_confirmation: 'password'})
       .respond({"id":123, "name":"Bill", "email":"bill@email.com"})
     expect($scope.users.length).toBe(0)
     $scope.createUser()
