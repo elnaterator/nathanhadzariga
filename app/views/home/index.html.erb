@@ -29,6 +29,12 @@
       <div>
         email: <input ng-model="user.email"/>
       </div>
+      <div ng-hide="editMode">
+        password: <input ng-model="user.password"/>
+      </div>
+      <div ng-hide="editMode">
+        password confirmation: <input ng-model="user.password_confirmation"/>
+      </div>
       <button ng-hide="editMode" ng-click="createUser()">Create user</button>
       <button ng-show="editMode" ng-click="updateUser()">Update user</button>
       <button ng-show="editMode" ng-click="cancelEdit()">Cancel</button>

@@ -18,7 +18,7 @@ UsersCtrl = ($scope, $http) ->
     )
 
   $scope.createUser = () ->
-    payload = $scope.user
+    payload = {user: $scope.user}
     $http.post('/users',payload).then( (response) ->
       $scope.users.push response.data
       $scope.user = {}
@@ -30,7 +30,7 @@ UsersCtrl = ($scope, $http) ->
     $scope.users.splice(index,1)
 
   $scope.updateUser = () ->
-    payload = $scope.user
+    payload = {user: $scope.user}
     $http.patch('/users/' + $scope.user.id, payload)
     $scope.user = {}
     $scope.editMode = false

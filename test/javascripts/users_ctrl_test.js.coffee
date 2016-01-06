@@ -32,8 +32,8 @@ describe 'UsersCtrl', () ->
     $scope.user.password = 'password'
     $scope.user.password_confirmation = 'password'
     $httpBackend.expect('POST', '/users',
-      {name: 'Bill', email: 'bill@email.com', password: 'password', password_confirmation: 'password'})
-      .respond({"id":123, "name":"Bill", "email":"bill@email.com"})
+      {user: {name: 'Bill', email: 'bill@email.com', password: 'password', password_confirmation: 'password'}})
+      .respond({"id":123, "name":"Bill", "email":"bill@email.com" })
     expect($scope.users.length).toBe(0)
     $scope.createUser()
     $httpBackend.flush()
@@ -60,7 +60,7 @@ describe 'UsersCtrl', () ->
     $scope.user.id = 123
     $scope.user.name = 'Billard'
     $scope.user.email = 'bill@email.com'
-    $httpBackend.expect('PATCH', '/users/123', {id: 123, name: 'Billard', email: 'bill@email.com'})
+    $httpBackend.expect('PATCH', '/users/123', {user: {id: 123, name: 'Billard', email: 'bill@email.com'}})
       .respond({"id":123, "name":"Billard", "email":"bill@email.com"})
     $scope.updateUser()
     $httpBackend.flush()
