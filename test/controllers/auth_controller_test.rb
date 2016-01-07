@@ -4,9 +4,9 @@ class AuthControllerTest < ActionController::TestCase
 
   describe 'Auth#login' do
 
-    let(:user) { users(:one) } # andy@test.com / password
+    let(:user) { users(:one) } # andy@test.com / password / 1
 
-    it 'should return user on login' do
+    it 'should return user' do
       post :login, user: { email: 'andy@test.com', password: 'password' }
       assert_equal 200, @response.status
       # validate user data is returned
@@ -23,10 +23,13 @@ class AuthControllerTest < ActionController::TestCase
       assert JSON.parse(@response.body).empty?
     end
 
-    it 'should include token in header for valid login' do
+    it 'should include token' do
       post :login, user: { email: 'andy@test.com', password: 'password' }
       assert_equal 200, @response.status
       assert_not_nil @response.headers['Token']
+      decodedToken = JWT.decode(@response.headers['Token'], nil, false)
+      assert_equal 1, decodedToken[0]['user_id']
+      assert_equal 'HS256', decodedToken[1]['alg']
     end
 
   end
