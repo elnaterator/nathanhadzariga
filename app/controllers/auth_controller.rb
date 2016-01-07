@@ -4,7 +4,7 @@ class AuthController < ApplicationController
     @user = User.find_by(email: login_params['email'])
     if @user.authenticate(login_params['password'])
       # generate token
-      claims = { user_id: @user.id }
+      claims = { user_id: @user.id, exp: Time.now.to_i + 3600 * 24 }
       response.headers['Token'] = JWT.encode claims, 'hmacSecret', 'HS256'
       render 'users/show'
     else

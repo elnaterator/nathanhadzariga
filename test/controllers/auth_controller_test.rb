@@ -23,13 +23,19 @@ class AuthControllerTest < ActionController::TestCase
       assert JSON.parse(@response.body).empty?
     end
 
-    it 'should include token' do
+    it 'should include JWT token that expires in 24 hours' do
       post :login, user: { email: 'andy@test.com', password: 'password' }
       assert_equal 200, @response.status
       assert_not_nil @response.headers['Token']
-      decodedToken = JWT.decode(@response.headers['Token'], nil, false)
-      assert_equal 1, decodedToken[0]['user_id']
-      assert_equal 'HS256', decodedToken[1]['alg']
+      decoded_token = JWT.decode(@response.headers['Token'], nil, false)
+      # contains user id
+      assert_equal 1, decoded_token[0]['user_id']
+      # expires after 24 hours
+      exp_tm = decoded_token[0]['exp']
+      expected_exp_tm = Time.now.to_i + 24 * 3600
+      assert_equal expected_exp_tm, exp_tm
+      # uses correct algorithm
+      assert_equal 'HS256', decoded_token[1]['alg']
     end
 
   end
