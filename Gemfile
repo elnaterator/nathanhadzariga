@@ -27,6 +27,9 @@ gem 'bcrypt', '~> 3.1.7'
 # JSON Web Tokens
 gem 'jwt', '~> 1.5.2'
 
+# config/application.yml will set ENV["variables"]
+gem 'figaro', '~> 1.1.1'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
