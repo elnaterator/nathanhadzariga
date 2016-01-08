@@ -3,10 +3,9 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
 
   let(:token) { AuthenticationService.tokenize({user_id: 1}) }
-  let(:auth_header) { ActionController::HttpAuthentication::Token.encode_credentials(token) }
 
   before do
-    request.env['HTTP_AUTHORIZATION'] = auth_header
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(token)
   end
 
   describe 'index' do
