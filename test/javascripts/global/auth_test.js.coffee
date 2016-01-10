@@ -33,16 +33,16 @@ describe 'Auth module', () ->
       AuthSrvc.setToken('someToken')
       expect(AuthSrvc.getToken()).toBe('someToken')
 
-    it 'should not set Authorization header if no token saved', () ->
-      config = { headers: {}}
-      AuthSrvc.request(config)
-      expect(config.headers['Authorization']).toBeUndefined()
-
-    it 'should set Authorization header if token saved', () ->
+    it 'should send Authorization header if token saved', () ->
       AuthSrvc.setToken('someToken')
       config = { headers: {}}
       AuthSrvc.request(config)
       expect(config.headers['Authorization']).toBe('Token token="someToken"')
+
+    it 'should NOT send Authorization header if NO token saved', () ->
+      config = { headers: {}}
+      AuthSrvc.request(config)
+      expect(config.headers['Authorization']).toBeUndefined()
 
 
   describe 'Auth interceptor', () ->

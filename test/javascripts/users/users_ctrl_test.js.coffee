@@ -4,11 +4,13 @@ describe 'UsersCtrl', () ->
   $httpBackend = null
   $controller = null
   $scope = null
+  AuthSrvc = null
   ctrl = null
 
-  beforeEach( inject( (_$httpBackend_, _$controller_) ->
+  beforeEach( inject( (_$httpBackend_, _$controller_, _AuthSrvc_) ->
     $httpBackend = _$httpBackend_
     $controller = _$controller_
+    AuthSrvc = _AuthSrvc_
     $scope = {}
     ctrl = $controller('UsersCtrl', { $scope : $scope })
   ))
@@ -20,9 +22,10 @@ describe 'UsersCtrl', () ->
 
   describe '#fetchUsers', () ->
 
-    xit 'should send the token in the header', () ->
+    it 'should Authorization header', () ->
+      AuthSrvc.setToken('someToken')
       $httpBackend.expect('GET', '/users', null, (headers) ->
-        return headers['Authorization']
+        return headers['Authorization'] == 'Token token="someToken"'
       ).respond([{"id":123, "name":"Bill", "email":"bill@email.com"}])
       $scope.fetchUsers()
       $httpBackend.flush()
