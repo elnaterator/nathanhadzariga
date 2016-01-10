@@ -35,8 +35,8 @@
 * (optional) create file `config/application.yml` with contents
 
     ```yml
-      production:
-        secret_key_base: actual-production-secret-key
+    production:
+      secret_key_base: actual-production-secret-key
     ```
 
 * `rails s` to start up local development server on [localhost:3000](http://localhost:3000).

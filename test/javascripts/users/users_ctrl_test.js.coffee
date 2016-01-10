@@ -1,5 +1,5 @@
 describe 'UsersCtrl', () ->
-  beforeEach(module('homeApp'))
+  beforeEach(module('natesApp.users'))
 
   $httpBackend = null
   $controller = null
@@ -18,13 +18,24 @@ describe 'UsersCtrl', () ->
     $httpBackend.verifyNoOutstandingRequest()
   )
 
-  it 'fetches list of users', () ->
-    $httpBackend.expect('GET', '/users').respond([{"id":123, "name":"Bill", "email":"bill@email.com"}])
-    expect($scope.users.length).toBe(0)
-    $scope.fetchUsers()
-    $httpBackend.flush()
-    expect($scope.users.length).toBe(1)
-    expect($scope.users[0].id).toBe(123)
+  describe '#fetchUsers', () ->
+
+    xit 'should send the token in the header', () ->
+      $httpBackend.expect('GET', '/users', null, (headers) ->
+        return headers['Authorization']
+      ).respond([{"id":123, "name":"Bill", "email":"bill@email.com"}])
+      $scope.fetchUsers()
+      $httpBackend.flush()
+
+    it 'fetches list of users', () ->
+      $httpBackend.expect('GET', '/users').respond([{"id":123, "name":"Bill", "email":"bill@email.com"}])
+      expect($scope.users.length).toBe(0)
+      $scope.fetchUsers()
+      $httpBackend.flush()
+      expect($scope.users.length).toBe(1)
+      expect($scope.users[0].id).toBe(123)
+
+
 
   it 'creates a user', () ->
     $scope.user.name = 'Bill'

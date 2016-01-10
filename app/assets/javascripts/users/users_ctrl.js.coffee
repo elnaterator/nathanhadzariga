@@ -1,8 +1,10 @@
+angular.module('natesApp.users',['natesApp.auth'])
+
 #
 # User controller
 #
 
-UsersCtrl = ($scope, $http) ->
+.controller 'UsersCtrl', ['$scope','$http', ($scope, $http) ->
 
   $scope.editMode = false
   $scope.users = []
@@ -29,7 +31,7 @@ UsersCtrl = ($scope, $http) ->
   $scope.deleteUser = (id) ->
     $scope.clearErrors()
     $http.delete('/users/'+id)
-    index = indexById($scope.users,id)
+    index = _.findIndex($scope.users,'id',id)
     $scope.users.splice(index,1)
 
   $scope.updateUser = () ->
@@ -46,7 +48,7 @@ UsersCtrl = ($scope, $http) ->
 
   $scope.editUser = (id) ->
     $scope.clearErrors()
-    index = indexById($scope.users,id)
+    index = _.findIndex($scope.users,'id',id)
     $scope.user = $scope.users[index]
     userCache = JSON.parse(JSON.stringify($scope.user))
     $scope.editMode = true
@@ -75,22 +77,7 @@ UsersCtrl = ($scope, $http) ->
     else # unknown error
       $scope.errors.push("I apologize for the inconvenience, but we seem to be having technical difficulties.")
 
+  buildErrMsg = (k,v) ->
+    _.capitalize(k) + ' ' + v[0]
 
-
-app = angular.module('homeApp',[]).controller 'UsersCtrl', ['$scope','$http', UsersCtrl]
-
-#
-# helpers
-#
-
-buildErrMsg = (k,v) ->
-  capitalize(k) + ' ' + v[0]
-
-capitalize = (str) ->
-  str.charAt(0).toUpperCase() + str.slice(1)
-
-indexById = (objects, id) ->
-  return i for obj, i in objects when obj.id==id
-
-clone = (src,dest) ->
-  dest[key] = val for key, val of src
+]
