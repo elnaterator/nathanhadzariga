@@ -1,6 +1,6 @@
 
 
-describe 'Auth module', () ->
+describe 'AuthSrvc', () ->
 
   $httpProvider = null
   $httpBackend = null
@@ -24,28 +24,26 @@ describe 'Auth module', () ->
     $httpBackend.verifyNoOutstandingRequest()
   )
 
-  describe 'AuthSrvc', () ->
+  it 'should be defined', () ->
+    expect(AuthSrvc).toBeDefined()
 
-    it 'should be defined', () ->
-      expect(AuthSrvc).toBeDefined()
+  it 'should store a token', () ->
+    AuthSrvc.setToken('someToken')
+    expect(AuthSrvc.getToken()).toBe('someToken')
 
-    it 'should store a token', () ->
-      AuthSrvc.setToken('someToken')
-      expect(AuthSrvc.getToken()).toBe('someToken')
+  it 'should send Authorization header if token saved', () ->
+    AuthSrvc.setToken('someToken')
+    config = { headers: {}}
+    AuthSrvc.request(config)
+    expect(config.headers['Authorization']).toBe('Token token="someToken"')
 
-    it 'should send Authorization header if token saved', () ->
-      AuthSrvc.setToken('someToken')
-      config = { headers: {}}
-      AuthSrvc.request(config)
-      expect(config.headers['Authorization']).toBe('Token token="someToken"')
-
-    it 'should NOT send Authorization header if NO token saved', () ->
-      config = { headers: {}}
-      AuthSrvc.request(config)
-      expect(config.headers['Authorization']).toBeUndefined()
+  it 'should NOT send Authorization header if NO token saved', () ->
+    config = { headers: {}}
+    AuthSrvc.request(config)
+    expect(config.headers['Authorization']).toBeUndefined()
 
 
-  describe 'Auth interceptor', () ->
+  describe 'http interceptor', () ->
 
     it 'should add interceptor to $httpProvider', () ->
       expect($httpProvider.interceptors).toContain('AuthSrvc')

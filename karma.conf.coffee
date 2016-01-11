@@ -17,6 +17,7 @@ module.exports = (config) ->
     files: [
       'vendor/assets/components/lodash/lodash.js',
       'vendor/assets/components/angular/angular.js',
+      'vendor/assets/components/angular-resource/angular-resource.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'app/assets/javascripts/**/*.js',
       'app/assets/javascripts/**/*.js.coffee',

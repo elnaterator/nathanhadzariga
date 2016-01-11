@@ -13,4 +13,5 @@
 //= require turbolinks
 //= require lodash/lodash
 //= require angular/angular
+//= require angular-resource/angular-resource
 //= require_tree .

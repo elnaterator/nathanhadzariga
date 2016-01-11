@@ -2,10 +2,10 @@
 #
 # Authentication service for dealing with token
 #
-angular.module('natesApp.auth',[])
+angular.module('natesApp.auth', ['ngResource'])
 
 .factory('AuthSrvc', () ->
-  
+
   token = null
 
   setToken = (t) ->
