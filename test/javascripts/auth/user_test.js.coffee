@@ -37,7 +37,8 @@ describe 'User', () ->
     it 'should send login request to backend', () ->
       $httpBackend.expect('POST', '/users/login', { email: 'henry@test.com', password: 'password' })
         .respond(200, { id: 123, name: 'Henry', email: 'henry@test.com' })
-      User.login({ email: 'henry@test.com', password: 'password' })
+      user = new User({ email: 'henry@test.com', password: 'password' })
+      user.$login()
       $httpBackend.flush()
 
     describe 'with success response', () ->
@@ -45,7 +46,8 @@ describe 'User', () ->
       beforeEach( () ->
         $httpBackend.expect('POST', '/users/login', { email: 'henry@test.com', password: 'password' })
           .respond(200, { id: 123, name: 'Henry', email: 'henry@test.com' }, {access_token: 'someToken'})
-        User.login({ email: 'henry@test.com', password: 'password' })
+        user = new User({ email: 'henry@test.com', password: 'password' })
+        user.$login()
         $httpBackend.flush()
       )
 
