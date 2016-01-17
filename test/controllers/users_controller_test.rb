@@ -77,6 +77,47 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
+  describe 'login' do
+    let(:user) { users(:one) }
+
+    it 'should be mapped to /users/login' do
+      assert_routing({ method: 'post', path: '/users/login' }, { controller: 'users', action: 'login' })
+    end
+
+    it 'should return user' do
+      post :login, user: { email: 'andy@test.com', password: 'password' }
+      assert_equal 200, @response.status
+      # validate user data is returned
+      data = JSON.parse(@response.body)
+      assert_equal user.id, data['id']
+      assert_equal user.name, data['name']
+      assert_equal user.email, data['email']
+    end
+
+    it 'should reject invalid login with 401' do
+      post :login, user: { email: 'andy@test.com', password: 'notright'}
+      assert_equal 401, @response.status
+      # and empty response (no user data returned)
+      assert JSON.parse(@response.body).empty?
+    end
+
+    it 'should include JWT token that expires in 24 hours' do
+      post :login, user: { email: 'andy@test.com', password: 'password' }
+      assert_equal 200, @response.status
+      assert_not_nil @response.headers['access_token']
+      decoded_token = JWT.decode(@response.headers['access_token'], nil, false)
+      # contains user id
+      assert_equal 1, decoded_token[0]['user_id']
+      # expires after 24 hours
+      exp_tm = decoded_token[0]['exp']
+      expected_exp_tm = Time.now.to_i + 24 * 3600
+      assert_equal expected_exp_tm, exp_tm
+      # uses correct algorithm
+      assert_equal 'HS256', decoded_token[1]['alg']
+    end
+
+  end
+
   describe 'routing' do
     it 'should have proper mapping' do
       assert_routing({ method: 'get', path: '/users' }, { controller: 'users', action: 'index' })

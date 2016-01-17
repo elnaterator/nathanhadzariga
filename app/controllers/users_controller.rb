@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
+  skip_before_action :authenticate_user, only: [:login]
 
   # GET /users
   def index
@@ -35,6 +36,19 @@ class UsersController < ApplicationController
     head :no_content
   end
 
+  # POST /users/login
+  def login
+    @user = User.find_by(email: login_params['email'])
+    if @user.authenticate(login_params['password'])
+      # generate token
+      claims = { user_id: @user.id, exp: Time.now.to_i + 3600 * 24 }
+      response.headers['access_token'] = AuthenticationService.tokenize claims
+      render 'users/show'
+    else
+      render json: {}, status: 401
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -45,4 +59,9 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
+
+    def login_params
+      params.require(:user).permit(:email, :password)
+    end
+
 end
