@@ -51,10 +51,5 @@ describe 'User', () ->
         $httpBackend.flush()
       )
 
-      it 'should store logged in user', () ->
-        currUser = User.getCurrent()
-        expect(currUser.id).toBe(123)
-        expect(currUser.name).toBe('Henry')
-
       it 'should store access token', () ->
         expect(AuthSrvc.getToken()).toBe('someToken')

@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 
   # POST /users/login
   def login
-    @user = User.find_by(email: login_params['email'])
+    @user = User.find_by(:email => login_params['email'])
     if @user.authenticate(login_params['password'])
       # generate token
       claims = { user_id: @user.id, exp: Time.now.to_i + 3600 * 24 }
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
     end
 
     def login_params
-      params.require(:user).permit(:email, :password)
+      params.permit(:email, :password)
     end
 
 end

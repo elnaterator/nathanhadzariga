@@ -6,9 +6,10 @@
   "private": true,
   "dependencies": {
     "bootstrap-sass": "bootstrap-sass-official#~3.3.6",
-    "lodash": "~3.10.1",
+    "lodash": "~4.0.0",
     "jquery": "~2.1.4",
     "angular": "~1.4.8",
-    "angular-resource": "~1.4.8"
+    "angular-resource": "~1.4.8",
+    "angular-route": "~1.4.8"
   }
 }

@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
 
+    logger.info "request authentication..."
+
     authenticate_with_http_token do |token,o|
       claims = AuthenticationService.decode(token)
       if claims && claims[:user_id]

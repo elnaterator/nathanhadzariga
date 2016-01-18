@@ -1,26 +1,26 @@
-<div ng-app="natesApp" >
+<div ng-app="natesApp">
 
-  <h1>Nathan Hadzariga</h1>
+  <!-- navbar -->
 
-  <hr/>
+  <nav class="navbar navbar-default navbar-inverse" ng-controller="NavCtrl">
 
-  <div id="login-form" ng-controller="LoginCtrl">
+    <div class="container-fluid">
 
-    <h2>Login</h2>
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li ng-show="isLoggedIn()"><a href="manageusers">Manage Users</a></li>
+      </ul>
 
-    Email: <input ng-model="user.email" />
-    <br/>
-    Password: <input ng-model="user.password" />
-    <br/>
-    <button ng-click="login()">Login</button>
-    <br/>
-    
-    <div ng-show="user.name">
-      Welcome {{user.name}}!!! You are logged in.
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-hide="isLoggedIn()"><a href="login">login</a></li>
+        <li ng-show="isLoggedIn()"><a>{{getUser().name}}</a></li>
+        <li ng-show="isLoggedIn()"><a href ng-click="logout()">logout</a></li>
+      </ul>
+
     </div>
 
-  </div>
+  </nav>
 
-
+  <div ng-view></div>
 
 </div>

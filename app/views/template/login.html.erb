@@ -1,0 +1,16 @@
+<div id="login-form" ng-controller="LoginCtrl">
+
+  <h2>Login</h2>
+
+  Email: <input ng-model="user.email" />
+  <br/>
+  Password: <input ng-model="user.password" />
+  <br/>
+  <button ng-click="login()">Login</button>
+  <br/>
+
+  <div ng-show="user.name">
+    Welcome {{user.name}}!!! You are logged in.
+  </div>
+
+</div>
