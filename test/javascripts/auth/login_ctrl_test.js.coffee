@@ -24,26 +24,55 @@ describe 'LoginCtrl', () ->
 
   describe '#login', () ->
 
-    beforeEach( () ->
-      $scope.user.email = 'test@email.com'
-      $scope.user.password = 'password'
-      $httpBackend.expect('POST', '/users/login', { email: 'test@email.com', password: 'password'})
-        .respond(200, { id: 123, name: 'Henry', email: 'test@email.com' }, {access_token: 'someToken'})
-      spyOn($location, 'path')
-      $scope.login()
-      $httpBackend.flush()
-    )
+    describe 'with success', () ->
 
-    it 'should log in user and set token', () ->
-      # current user should be stored
-      expect(User.getCurrent().id).toBe(123)
-      expect(User.getCurrent().name).toBe('Henry')
-      # token should be stored
-      expect(AuthSrvc.getToken()).toBe('someToken')
+      beforeEach( () ->
+        $scope.user.email = 'test@email.com'
+        $scope.user.password = 'password'
+        $httpBackend.expect('POST', '/users/login', { email: 'test@email.com', password: 'password'})
+          .respond(200, { id: 123, name: 'Henry', email: 'test@email.com' }, {access_token: 'someToken'})
+        spyOn($location, 'path')
+        $scope.login()
+        $httpBackend.flush()
+      )
 
-    it 'should put user info on scope', () ->
-      expect($scope.user.id).toBe(123)
-      expect($scope.user.name).toBe('Henry')
+      it 'should log in user and set token', () ->
+        # current user should be stored
+        expect(User.getCurrent().id).toBe(123)
+        expect(User.getCurrent().name).toBe('Henry')
+        # token should be stored
+        expect(AuthSrvc.getToken()).toBe('someToken')
 
-    it 'should nav user to home page', () ->
-      expect($location.path).toHaveBeenCalledWith('/')
+      it 'should put user info on scope', () ->
+        expect($scope.user.id).toBe(123)
+        expect($scope.user.name).toBe('Henry')
+
+      it 'should nav user to home page', () ->
+        expect($location.path).toHaveBeenCalledWith('/')
+
+    describe 'with auth err', () ->
+
+      beforeEach( () ->
+        $scope.user.email = 'test@email.com'
+        $scope.user.password = 'password'
+        $httpBackend.expect('POST', '/users/login', { email: 'test@email.com', password: 'password'}).respond(401, '')
+        spyOn($location, 'path')
+        $scope.login()
+        $httpBackend.flush()
+      )
+
+      it 'should put error message on scope', () ->
+        expect($scope.errors[0]).toBe('Invalid email or password.')
+
+      it 'should not nav anywhere', () ->
+        expect($location.path).not.toHaveBeenCalled()
+
+
+  describe '#isNewUser', () ->
+
+    it 'should be toggleable boolean property', () ->
+      expect($scope.isNewUser).toBe(false)
+      $scope.toggleNewUser()
+      expect($scope.isNewUser).toBe(true)
+      $scope.toggleNewUser()
+      expect($scope.isNewUser).toBe(false)

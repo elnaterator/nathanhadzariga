@@ -14,6 +14,10 @@ angular.module('natesApp.auth')
         response: (response) ->
           AuthSrvc.setToken(response.headers()['access_token'])
       }
+    },
+    signup: {
+      method: 'POST',
+      url: '/users/signup'
     }
   })
 

@@ -1,16 +1,59 @@
-<div id="login-form" ng-controller="LoginCtrl">
+<div ng-controller="LoginCtrl" class="container row">
 
-  <h2>Login</h2>
+  <div id="login-form" ng-hide="isNewUser" class="col-xs-12 col-sm-6 col-md-4">
 
-  Email: <input ng-model="user.email" />
-  <br/>
-  Password: <input ng-model="user.password" />
-  <br/>
-  <button ng-click="login()">Login</button>
-  <br/>
+    <h2>Login</h2>
 
-  <div ng-show="user.name">
-    Welcome {{user.name}}!!! You are logged in.
+    <div class="alert alert-danger" ng-repeat="err in errors">
+      {{err}}
+    </div>
+
+    <div class="form-group">
+      <label for="login-email">Email</label>
+      <input ng-model="user.email" id="login-email" type="email" class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+      <label for="login-password">Password</label>
+      <input ng-model="user.password" id="login-password" type="password" class="form-control"></input>
+    </div>
+
+    <button ng-click="login()" class="btn btn-primary">Login</button>
+    <button ng-click="toggleNewUser()" class="btn btn-primary">New User</button>
+
+  </div>
+
+  <div id="signup-form" ng-show="isNewUser" class="col-xs-12 col-sm-6 col-md-4">
+
+    <h2>Sign Up</h2>
+
+    <div class="alert alert-danger" ng-repeat="err in errors">
+      {{err}}
+    </div>
+
+    <div class="form-group">
+      <label for="signup-email">Email</label>
+      <input ng-model="user.email" id="signup-email" type="email" class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+      <label for="signup-name">Name</label>
+      <input ng-model="user.name" id="signup-name" class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+      <label for="signup-password">Password</label>
+      <input ng-model="user.password" id="signup-password" type="password" class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+      <label for="signup-password-confirm">Confirm Password</label>
+      <input ng-model="user.password_confirmation" id="signup-password-confirm" type="password" class="form-control"></input>
+    </div>
+
+    <button ng-click="signup()" class="btn btn-primary">Sign Up</button>
+    <button ng-click="toggleNewUser()" class="btn btn-primary">I already have an account</button>
+
   </div>
 
 </div>
