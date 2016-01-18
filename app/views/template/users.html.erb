@@ -1,0 +1,39 @@
+<div id="users" ng-controller="UsersCtrl">
+
+  <div class="alert alert-danger" ng-repeat="errorMsg in getErrors()">
+    {{errorMsg}}
+  </div>
+
+  <div id="user-list" ng-init="fetchUsers()">
+    <h1>Users</h1>
+    <ul>
+      <li ng-repeat="user in users">{{user.name}} | {{user.email}} |
+        <a href ng-click="editUser(user.id)">edit</a> |
+        <a href ng-click="deleteUser(user.id)">delete</a>
+      </li>
+    </ul>
+  </div>
+
+  <div id="user-form" ng-init="editMode = false">
+    <h1>{{(editMode ? "Edit" : "New")}} User</h1>
+    <div ng-show="editMode">
+      id: <span ng-bind="user.id"></span>
+    </div>
+    <div>
+      name: <input ng-model="user.name"/>
+    </div>
+    <div>
+      email: <input ng-model="user.email"/>
+    </div>
+    <div ng-hide="editMode">
+      password: <input ng-model="user.password"/>
+    </div>
+    <div ng-hide="editMode">
+      password confirmation: <input ng-model="user.password_confirmation"/>
+    </div>
+    <button ng-hide="editMode" ng-click="createUser()">Create user</button>
+    <button ng-show="editMode" ng-click="updateUser()">Update user</button>
+    <button ng-show="editMode" ng-click="cancelEdit()">Cancel</button>
+  </div>
+
+</div>
