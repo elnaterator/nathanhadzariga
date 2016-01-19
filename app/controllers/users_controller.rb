@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
-  skip_before_action :authenticate_user, only: [:login]
+  skip_before_action :authenticate_user, only: [:login, :signup]
 
   # GET /users
   def index
@@ -40,12 +40,21 @@ class UsersController < ApplicationController
   def login
     @user = User.find_by(:email => login_params['email'])
     if @user.authenticate(login_params['password'])
-      # generate token
-      claims = { user_id: @user.id, exp: Time.now.to_i + 3600 * 24 }
-      response.headers['access_token'] = AuthenticationService.tokenize claims
+      set_access_token @user
       render 'users/show'
     else
       render json: {}, status: 401
+    end
+  end
+
+  # POST /users/signup
+  def signup
+    @user = User.new(user_params2)
+    if @user.save
+      set_access_token @user
+      render :show, status: :created, location: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -60,8 +69,18 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
+    def user_params2
+      params.permit(:name, :email, :password, :password_confirmation)
+    end
+
     def login_params
       params.permit(:email, :password)
+    end
+
+    def set_access_token user
+      # generate token
+      claims = { user_id: user.id, exp: Time.now.to_i + 3600 * 24 }
+      response.headers['access_token'] = AuthenticationService.tokenize claims
     end
 
 end

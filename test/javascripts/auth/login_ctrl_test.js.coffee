@@ -68,7 +68,7 @@ describe 'LoginCtrl', () ->
         expect($location.path).not.toHaveBeenCalled()
 
 
-  describe '#isNewUser', () ->
+  describe '#togglNewUser', () ->
 
     it 'should be toggleable boolean property', () ->
       expect($scope.isNewUser).toBe(false)
@@ -76,3 +76,24 @@ describe 'LoginCtrl', () ->
       expect($scope.isNewUser).toBe(true)
       $scope.toggleNewUser()
       expect($scope.isNewUser).toBe(false)
+
+  describe '#signup', () ->
+
+    describe 'with success response', () ->
+
+      beforeEach( () ->
+        $scope.user.name = 'Bill Billson'
+        $scope.user.email = 'test@email.com'
+        $scope.user.password = 'password'
+        $scope.user.password_confirmation = 'password'
+        $httpBackend.expect('POST', '/users/signup',
+          {name: 'Bill Billson', email: 'test@email.com', password: 'password', password_confirmation: 'password'})
+        .respond(200, {id: 123, name: 'Bill Billson', email: 'test@email.com'}, {access_token: 'someToken'})
+        spyOn($location, 'path')
+        $scope.signup()
+        $httpBackend.flush()
+      )
+
+      it 'should log new user in', () ->
+        expect(User.getCurrent().id).toBe(123)
+        expect(AuthSrvc.getToken()).toBe('someToken')

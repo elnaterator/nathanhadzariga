@@ -118,6 +118,26 @@ class UsersControllerTest < ActionController::TestCase
 
   end
 
+  describe 'signup' do
+    let(:user) { users(:one) }
+
+    it 'should be mapped to /users/signup' do
+      assert_routing({ method: 'post', path: '/users/signup' }, { controller: 'users', action: 'signup'})
+    end
+
+    it 'should return errors for request with invalid input' do
+      post :signup, { email: 'blah', name: 'Billy', password: 'password', password_confirmation: 'password'}
+      assert_equal 422, @response.status
+    end
+
+    it 'should create user' do
+      assert_difference('User.count') do
+        post :signup, { email: 'test@email.com', name: 'Billy', password: 'password', password_confirmation: 'password'}
+      end
+    end
+
+  end
+
   describe 'routing' do
     it 'should have proper mapping' do
       assert_routing({ method: 'get', path: '/users' }, { controller: 'users', action: 'index' })

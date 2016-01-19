@@ -23,12 +23,13 @@ angular.module('natesApp.auth')
 
   $scope.signup = () ->
     $scope.errors = []
-    $scope.user.$create(
+    $scope.user.$signup(
       ( () ->
-        console.info 'success'
+        User.setCurrent($scope.user)
+        $location.path('/')
       ),
-      ( () ->
-        console.info 'failure'
+      ( (response) ->
+        $scope.errors.push('Something was wrong with what you sent me.')
       )
     )
 
