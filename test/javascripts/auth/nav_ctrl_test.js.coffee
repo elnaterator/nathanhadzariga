@@ -55,4 +55,4 @@ describe 'NavCtrl', () ->
       expect(User.getCurrent()).toBeNull()
 
     it 'should nav to home page', () ->
-      expect($location.path).toHaveBeenCalledWith('/')
+      expect($location.path).toHaveBeenCalledWith('/login')

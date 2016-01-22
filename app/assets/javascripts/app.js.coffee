@@ -4,28 +4,26 @@ angular.module('natesApp',[
   'natesApp.users'
   ])
 
-.run(['$rootScope', ($rootScope) -> # lodash on scope in views
+# lodash integration
+.run(['$rootScope', ($rootScope) ->
   $rootScope._ = window._
 ])
 
 .config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
 
   $routeProvider
-
   .when('/', {
-    templateUrl: '/template/welcome'
+    templateUrl: '/template/home'
   })
-
   .when('/login', {
-    templateUrl: '/template/login',
+    templateUrl: '/template/auth/login',
     controller: 'LoginCtrl'
   })
-
   .when('/manageusers', {
-    templateUrl: '/template/users',
+    templateUrl: '/template/users/users',
     controller: 'UsersCtrl'
   })
 
-  $locationProvider.html5Mode(true);
+  #$locationProvider.html5Mode(true);
 
 ])

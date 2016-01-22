@@ -16,7 +16,7 @@ angular.module('natesApp.auth')
         User.setCurrent($scope.user)
         $location.path('/')
       ),
-      ( () ->
+      ( (response) ->
         $scope.errors.push('Invalid email or password.')
       )
     )

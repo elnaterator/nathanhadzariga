@@ -68,7 +68,7 @@ describe 'LoginCtrl', () ->
         expect($location.path).not.toHaveBeenCalled()
 
 
-  describe '#togglNewUser', () ->
+  describe '#toggleNewUser', () ->
 
     it 'should be toggleable boolean property', () ->
       expect($scope.isNewUser).toBe(false)

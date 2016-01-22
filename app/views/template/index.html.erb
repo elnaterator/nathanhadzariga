@@ -7,12 +7,12 @@
     <div class="container-fluid">
 
       <ul class="nav navbar-nav">
-        <li><a href="/">Home</a></li>
-        <li ng-show="isLoggedIn()"><a href="manageusers">Manage Users</a></li>
+        <li><a href="#/">Home</a></li>
+        <li ng-show="isLoggedIn()"><a href="#/manageusers">Manage Users</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li ng-hide="isLoggedIn()"><a href="login">login</a></li>
+        <li ng-hide="isLoggedIn()"><a href="#/login">login</a></li>
         <li ng-show="isLoggedIn()"><a>{{getUser().name}}</a></li>
         <li ng-show="isLoggedIn()"><a href ng-click="logout()">logout</a></li>
       </ul>

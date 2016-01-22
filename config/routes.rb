@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :users
+  resources :users, only: [:index, :create, :show, :update, :destroy]
   post '/users/login', to: 'users#login'
   post '/users/signup', to: 'users#signup'
 
@@ -8,10 +8,11 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'home#index'
+  root 'template#index'
 
   # render templates
-  get '/template/:page', to: 'template#page'
+  get '/template/:name', to: 'template#template'
+  get '/template/:module/:name', to: 'template#template'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
