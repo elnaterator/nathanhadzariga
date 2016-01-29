@@ -6,23 +6,26 @@ angular.module('natesApp.auth')
 
 .factory('User', ['$resource', 'AuthSrvc', ($resource, AuthSrvc) ->
 
-  setToken = (response) ->
-    AuthSrvc.setToken(response.headers()['access_token'])
-
   User = $resource('/users/:id', { id: '@id' }, {
     login: {
       method: 'POST',
       url: '/users/login',
-      interceptor: { response: setToken }
     },
     signup: {
       method: 'POST',
       url: '/users/signup',
-      interceptor: { response: setToken }
     }
   })
 
-  currentUser = undefined
+  loadUser = () ->
+    token = AuthSrvc.getToken()
+    if token
+      encodedClaims = token.split('.')[1]
+      claims = JSON.parse(atob(encodedClaims))
+      user = User.get({id: 32})
+      user
+
+  currentUser = loadUser() || undefined
 
   User.getCurrent = () ->
     currentUser
