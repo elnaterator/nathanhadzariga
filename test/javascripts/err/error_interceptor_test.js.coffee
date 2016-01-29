@@ -45,21 +45,38 @@ describe 'ErrorInterceptor', () ->
       expect(msgs.length).toBe(1)
       expect(msgs[0]).toBe('Valid message.')
 
-  describe '4XX errors', () ->
+  describe 'http response and getErrors', () ->
 
-    it 'with errors in body should store those errors', () ->
+    it '4XX status with errors in body should store those errors', () ->
       $httpBackend.expect('GET', 'http://example.com')
-        .respond(421, { field1: ['is missing'], field2: ['is invalid'] })
+        .respond(421, { field1: ['is missing'], field_two: ['is invalid'] })
       $http.get('http://example.com')
       $httpBackend.flush()
       errors = ErrorInterceptor.getErrors()
       expect(errors.length).toBe(2)
-      expect(errors[0]).toBe('Field1 is missing.')
-      expect(errors[1]).toBe('Field2 is invalid.')
+      expect(errors[0]).toBe('Field 1 is missing.')
+      expect(errors[1]).toBe('Field two is invalid.')
 
-    it 'with no errors in body, should give generic user message', () ->
+    it '4XX status with no body should log single error', () ->
       $httpBackend.expect('GET', 'http://example.com').respond(421, '')
       $http.get('http://example.com')
       $httpBackend.flush()
       errors = ErrorInterceptor.getErrors()
       expect(errors.length).toBe(1)
+
+    it '5XX status should log single error', () ->
+      $httpBackend.expect('GET', 'http://example.com').respond(500, '')
+      $http.get('http://example.com')
+      $httpBackend.flush()
+      errors = ErrorInterceptor.getErrors()
+      expect(errors.length).toBe(1)
+
+    it 'should reset errors on a success request', () ->
+      $httpBackend.expect('GET', 'http://example.com').respond(500, '')
+      $http.get('http://example.com')
+      $httpBackend.flush()
+      $httpBackend.expect('GET', 'http://example.com').respond(200, '')
+      $http.get('http://example.com')
+      $httpBackend.flush()
+      errors = ErrorInterceptor.getErrors()
+      expect(errors.length).toBe(0)

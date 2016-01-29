@@ -1,8 +1,7 @@
 angular.module('natesApp',[
   'ngRoute',
   'natesApp.auth',
-  'natesApp.users',
-  'natesApp.err'
+  'natesApp.users'
   ])
 
 # lodash integration

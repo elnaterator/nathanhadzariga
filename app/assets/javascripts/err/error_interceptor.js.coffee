@@ -11,11 +11,10 @@ angular.module('natesApp.err', [])
     return null if !_.isPlainObject(jsonResp)
     msgs = []
     for k, v of jsonResp
-      msgs.push(_.capitalize(k) + ' ' + v[0] + '.') if _.isArray(v)
+      msgs.push(_.capitalize(_.lowerCase(k)) + ' ' + v[0] + '.') if _.isArray(v)
     msgs
 
   response = (response) ->
-    console.info 'success'
     errors = []
     response
 
