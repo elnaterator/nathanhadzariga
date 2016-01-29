@@ -9,8 +9,7 @@ angular.module('natesApp.auth')
     User.getCurrent()
 
   $scope.logout = () ->
-    AuthSrvc.setToken(null)
-    User.setCurrent(null)
+    User.logout()
     $location.path('/login')
 
 ])

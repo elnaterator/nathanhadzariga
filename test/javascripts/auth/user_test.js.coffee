@@ -53,3 +53,12 @@ describe 'User', () ->
 
       it 'should store access token', () ->
         expect(AuthSrvc.getToken()).toBe('someToken')
+
+  describe '#logout', () ->
+
+    it 'should delete token and current user', () ->
+      AuthSrvc.setToken('someToken')
+      User.setCurrent(new User({name:'Henry'}))
+      User.logout()
+      expect(AuthSrvc.getToken()).toBeNull()
+      expect(User.getCurrent()).toBeNull()

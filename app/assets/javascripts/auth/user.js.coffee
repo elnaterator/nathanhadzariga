@@ -9,33 +9,16 @@ angular.module('natesApp.auth')
   setToken = (response) ->
     AuthSrvc.setToken(response.headers()['access_token'])
 
-  extractErrorMessages = (response) ->
-    errors = []
-    errors.push(errorMsg(k,v)) for k,v of response.data
-    errors
-
-  handleErrors = (response) ->
-    this.errors = []
-    if response.status >= 500
-      errors = ['I apologize for the inconvenience, but we seem to be having technical difficulties right now.']
-    else if response.status >= 400 && _.isObject(response.data)
-      errors = extractErrorMessages(response)
-    errors
-
-  setErrorMessages = (response) ->
-
-
-
-  User = $resource('/users/:id', null, {
+  User = $resource('/users/:id', { id: '@id' }, {
     login: {
       method: 'POST',
       url: '/users/login',
-      interceptor: { response: setToken, responseError: setErrorMessages }
+      interceptor: { response: setToken }
     },
     signup: {
       method: 'POST',
       url: '/users/signup',
-      interceptor: { response: setToken, responseError: setErrorMessages }
+      interceptor: { response: setToken }
     }
   })
 
@@ -46,6 +29,10 @@ angular.module('natesApp.auth')
 
   User.setCurrent = (user) ->
     currentUser = user
+
+  User.logout = () ->
+    AuthSrvc.setToken(null)
+    currentUser = null
 
   return User
 

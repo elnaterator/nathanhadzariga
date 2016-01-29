@@ -19,6 +19,10 @@ angular.module('natesApp',[
     templateUrl: '/template/auth/login',
     controller: 'LoginCtrl'
   })
+  .when('/profile', {
+    templateUrl: '/template/auth/profile',
+    controller: 'ProfileCtrl'
+  })
   .when('/manageusers', {
     templateUrl: '/template/users/users',
     controller: 'UsersCtrl'
