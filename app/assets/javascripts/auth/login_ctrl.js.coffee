@@ -7,6 +7,7 @@ angular.module('natesApp.auth')
   $scope.errors = []
 
   $scope.toggleNewUser = () ->
+    $scope.errors = []
     $scope.isNewUser = !$scope.isNewUser
 
   $scope.login = () ->
