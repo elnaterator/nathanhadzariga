@@ -16,23 +16,7 @@ angular.module('natesApp.manageUsers',['natesApp.auth', 'natesApp.err'])
   AuthSrvc.getToken()
   users = User.query()
 
-  # reset cached user props
-  resetCachedUser = () ->
-    if cachedUserProps
-      i = _.findIndex(users,['id',cachedUserProps.id])
-      u = users[i]
-      for k,v of cachedUserProps
-        u[k] = v
-      cachedUserProps = null
-
   # basic accessors
-
-  $scope.editMode = (em) ->
-    if em == false
-      user = new User
-      editMode = false
-      resetCachedUser()
-    editMode
 
   $scope.users = (ul) ->
     users = ul if ul
@@ -42,7 +26,24 @@ angular.module('natesApp.manageUsers',['natesApp.auth', 'natesApp.err'])
     user = u if u
     user
 
+  # reset cached user props
+
+  resetCachedUser = () ->
+    if cachedUserProps
+      i = _.findIndex(users,['id',cachedUserProps.id])
+      u = users[i]
+      for k,v of cachedUserProps
+        u[k] = v
+      cachedUserProps = null
+
   # edit mode
+
+  $scope.editMode = (em) ->
+    if em == false
+      user = new User
+      editMode = false
+      resetCachedUser()
+    editMode
 
   $scope.editUser = (id) ->
     index = _.findIndex(users,['id',id])
@@ -74,17 +75,8 @@ angular.module('natesApp.manageUsers',['natesApp.auth', 'natesApp.err'])
       users.splice(index,1)
     )
 
-
   $scope.fetchUsers = () ->
     $scope.users = User.query()
-
-
-
-  # edit mode helpers
-
-
-
-
 
   # error handling
 

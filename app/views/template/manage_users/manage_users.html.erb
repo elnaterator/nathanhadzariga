@@ -1,40 +1,59 @@
-<div id="users" class="container">
+<div class="container">
 
-  <div class="alert alert-danger" ng-repeat="msg in errors()">
-    {{msg}}
+  <div class="row">
+    <div class="col-xs-12">
+
+      <div class="alert alert-danger" ng-repeat="msg in errors()">
+        {{msg}}
+      </div>
+
+      <div id="user-list">
+        <h1>Users</h1>
+        <ul>
+          <li ng-repeat="user in users()">
+            {{user.name}} | {{user.email}} |
+            <a href ng-click="editUser(user.id)">edit</a> |
+            <a href ng-click="deleteUser(user.id)">delete</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
   </div>
 
-  <div id="user-list">
-    <h1>Users</h1>
-    <ul>
-      <li ng-repeat="user in users()">
-        {{user.name}} | {{user.email}} |
-        <a href ng-click="editUser(user.id)">edit</a> |
-        <a href ng-click="deleteUser(user.id)">delete</a>
-      </li>
-    </ul>
-  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4">
 
-  <div id="user-form">
-    <h1>{{(editMode() ? "Edit" : "New")}} User</h1>
-    <div ng-show="editMode()">
-      id: <span ng-bind="user().id"></span>
+      <h1>{{(editMode() ? "Edit" : "New")}} User</h1>
+
+      <div ng-show="editMode()" class="form-group">
+        <label>id</label>
+        <input ng-model="user().id" class="form-control" disabled/>
+      </div>
+      <div class="form-group">
+        <label>name</label>
+        <input ng-model="user().name" class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label>email</label>
+        <input ng-model="user().email" class="form-control"/>
+      </div>
+      <div ng-hide="editMode()" class="form-group">
+        <label>password</label>
+        <input ng-model="user().password" class="form-control"/>
+      </div>
+      <div ng-hide="editMode()" class="form-group">
+        <label>password confirmation</label>
+        <input ng-model="user().password_confirmation" class="form-control"/>
+      </div>
+
+      <br/>
+
+      <button ng-hide="editMode()" ng-click="createUser()" class="btn btn-primary">Create user</button>
+      <button ng-show="editMode()" ng-click="updateUser()" class="btn btn-primary">Update user</button>
+      <button ng-show="editMode()" ng-click="editMode(false)" class="btn btn-primary">Cancel</button>
+
     </div>
-    <div>
-      name: <input ng-model="user().name"/>
-    </div>
-    <div>
-      email: <input ng-model="user().email"/>
-    </div>
-    <div ng-hide="editMode()">
-      password: <input ng-model="user().password"/>
-    </div>
-    <div ng-hide="editMode()">
-      password confirmation: <input ng-model="user().password_confirmation"/>
-    </div>
-    <button ng-hide="editMode()" ng-click="createUser()">Create user</button>
-    <button ng-show="editMode()" ng-click="updateUser()">Update user</button>
-    <button ng-show="editMode()" ng-click="editMode(false)">Cancel</button>
   </div>
 
 </div>
