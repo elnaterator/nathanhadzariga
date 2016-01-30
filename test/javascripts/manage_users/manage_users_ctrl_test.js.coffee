@@ -32,7 +32,7 @@ describe 'ManageUsersCtrl', () ->
 
     beforeEach( () ->
       $httpBackend.expect('GET', '/users')
-        .respond([{id:123,name:'Bill'},{id:456,name:'Joe'}])
+        .respond([{id:123,name:'Bill',email:'bill@email.com'},{id:456,name:'Joe',email:'joe@email.com'}])
       $controller('ManageUsersCtrl', { $scope : $scope })
       $httpBackend.flush()
     )
@@ -55,6 +55,13 @@ describe 'ManageUsersCtrl', () ->
         expect($scope.editMode()).toBe(false)
         expect($scope.user().name).toBeUndefined()
 
+      it 'should reset any changes made to user when turning off edit mode', () ->
+        $scope.editUser(456)
+        $scope.user().email = 'invalidemail'
+        $scope.editMode(false)
+        i = _.findIndex($scope.users(),['id',456])
+        user = $scope.users()[i]
+        expect(user.email).toBe('joe@email.com')
 
     #
     # CRUD tests
@@ -109,10 +116,11 @@ describe 'ManageUsersCtrl', () ->
         describe 'successfully', () ->
 
           beforeEach( () ->
-            $scope.user(new User({id:999,name:'Bill',email:'bill@email.com'}))
-            $httpBackend.expect('PATCH', '/users/999',
-              {id:999,name:'Bill',email: 'bill@email.com'})
-              .respond({"id":999,"name":"Bill","email":"bill@email.com"})
+            $scope.editUser(123)
+            $scope.user().email = 'bill@example.com'
+            $httpBackend.expect('PATCH', '/users/123',
+              {id:123,name:'Bill',email: 'bill@example.com'})
+              .respond({"id":123,"name":"Bill","email":"bill@example.com"})
             $scope.updateUser()
             $httpBackend.flush()
           )
@@ -124,9 +132,10 @@ describe 'ManageUsersCtrl', () ->
         describe 'with errors', () ->
 
           beforeEach( () ->
-            $scope.user(new User({id:999,name:'Bill',email:'bill@email.com'}))
-            $httpBackend.expect('PATCH', '/users/999',
-              {id:999,name:'Bill',email: 'bill@email.com'})
+            $scope.editUser(123)
+            $scope.user().email = 'bill@example.com'
+            $httpBackend.expect('PATCH', '/users/123',
+              {id:123,name:'Bill',email: 'bill@example.com'})
               .respond(422, {email:['is invalid format'],password:['is required']})
             $scope.updateUser()
             $httpBackend.flush()
