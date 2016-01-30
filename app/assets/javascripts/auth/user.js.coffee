@@ -7,6 +7,9 @@ angular.module('natesApp.auth')
 .factory('User', ['$resource', 'AuthSrvc', ($resource, AuthSrvc) ->
 
   User = $resource('/users/:id', { id: '@id' }, {
+    update: {
+      method: 'PATCH'
+    },
     login: {
       method: 'POST',
       url: '/users/login',
