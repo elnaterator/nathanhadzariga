@@ -49,7 +49,7 @@ class UsersController < ApplicationController
 
   # POST /users/signup
   def signup
-    @user = User.new(user_params2)
+    @user = User.new(user_params)
     if @user.save
       set_access_token @user
       render :show, status: :created, location: @user
@@ -66,10 +66,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
-
-    def user_params2
       params.permit(:name, :email, :password, :password_confirmation)
     end
 

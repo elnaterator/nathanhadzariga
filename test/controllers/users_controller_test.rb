@@ -29,7 +29,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_difference('User.count') do
         post(
           :create,
-          { user: { name: 'Henry Henderson', email: 'henry@test.com', password: 'hello123', password_confirmation: 'hello123' }},
+          { name: 'Henry Henderson', email: 'henry@test.com', password: 'hello123', password_confirmation: 'hello123' },
           { 'Authorization' => "Token #{token}" }
         )
       end
@@ -56,7 +56,7 @@ class UsersControllerTest < ActionController::TestCase
     let(:user) { users(:one) }
 
     it 'should update user' do
-      patch(:update, { id: user, user: { name: 'Andy A Anderson' } }, { 'Authorization' => "Token #{token}" })
+      patch(:update, { id: user, name: 'Andy A Anderson' }, { 'Authorization' => "Token #{token}" })
       resp = JSON.parse(@response.body)
       assert_equal 'Andy A Anderson', resp['name']
       assert_equal 'andy@test.com', resp['email']
