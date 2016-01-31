@@ -29,6 +29,24 @@ describe 'NavCtrl', () ->
       AuthSrvc.setToken(undefined)
       expect($scope.isLoggedIn()).toBe(false)
 
+  describe '#isAdmin', () ->
+
+    it 'should return false if no token', () ->
+      AuthSrvc.setToken(null)
+      expect($scope.isAdmin()).toBe(false)
+
+    it 'should return false if the role in token is user', () ->
+      claims = btoa(JSON.stringify({role:'USER'}))
+      token = "header." + claims + ".signature"
+      AuthSrvc.setToken(token)
+      expect($scope.isAdmin()).toBe(false)
+
+    it 'should return true if the role in token is admin', () ->
+      claims = btoa(JSON.stringify({role:'ADMIN'}))
+      token = "header." + claims + ".signature"
+      AuthSrvc.setToken(token)
+      expect($scope.isAdmin()).toBe(true)
+
   describe '#getUser', () ->
 
     it 'should return current logged in user', () ->
