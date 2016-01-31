@@ -25,7 +25,7 @@ angular.module('natesApp.auth')
     if token
       encodedClaims = token.split('.')[1]
       claims = JSON.parse(atob(encodedClaims))
-      user = User.get({id: 32})
+      user = User.get({id: claims.user_id})
       user
 
   currentUser = loadUser() || undefined
