@@ -7,7 +7,10 @@ namespace :db do
 
   desc "Populate db with sample data"
   task sample_data: :environment do
-    User.create(name: "Bill", email: "bill@example.com", password: "password", password_confirmation: "password")
+    User.create(name: "Nathan", email: "n.hadzariga@gmail.com", password: "password", password_confirmation: "password")
+    User.create(name: "Constanza", email: "conicakz@gmail.com", password: "password", password_confirmation: "password")
+    User.create(name: "Bill", email: "bill@bill.com", password: "password", password_confirmation: "password")
+    User.create(name: "Fred", email: "fred@fred.com", password: "password", password_confirmation: "password")
   end
 
 end
