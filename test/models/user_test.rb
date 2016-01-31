@@ -50,4 +50,23 @@ class UserTest < ActiveSupport::TestCase
     assert user.authenticate('hello123')
   end
 
+  describe 'roles' do
+
+    it 'should defualt to USER' do
+      assert_equal 'USER', user.role
+    end
+
+    it 'should be settable on creation' do
+      user = User.create(name: 'Test', email: 'test@email.com', password: 'pass', password_confirmation: 'pass', role: 'ADMIN')
+      assert_equal 'ADMIN', user.role
+    end
+
+    it 'should have helper to test if admin' do
+      assert_not user.admin?
+      user.update(role: 'ADMIN')
+      assert user.admin?
+    end
+
+  end
+
 end

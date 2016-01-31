@@ -9,6 +9,7 @@ one:
   name: 'Andy Anderson'
   email: 'andy@test.com'
   password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
+  role: 'ADMIN'
 # column: value
 #
 two:
@@ -16,4 +17,5 @@ two:
   name: 'Bill Billson'
   email: 'bill@test.com'
   password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
+  role: 'USER'
 #  column: value

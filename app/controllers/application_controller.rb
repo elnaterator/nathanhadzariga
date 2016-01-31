@@ -8,9 +8,6 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_user
-
-    logger.info "request authentication..."
-
     authenticate_with_http_token do |token,o|
       claims = AuthenticationService.decode(token)
       if claims && claims[:user_id]
@@ -18,10 +15,15 @@ class ApplicationController < ActionController::Base
         @current_user = User.find(claims[:user_id])
       end
     end
-
-    if !@current_user
-      render json: { error: 'Unauthorized' }, status: :unauthorized
-    end
-
+    render_unauthorized if !@current_user
   end
+
+  def verify_admin
+    render_unauthorized if !@current_user || !@current_user.admin?
+  end
+
+  def render_unauthorized
+    render json: { error: 'Unauthorized' }, status: :unauthorized
+  end
+
 end
