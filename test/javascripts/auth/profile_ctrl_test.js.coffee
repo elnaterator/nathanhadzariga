@@ -70,6 +70,7 @@ describe 'ProfileCtrl', () ->
       $httpBackend.flush()
       expect($scope.user().name).toBe('George')
       expect($scope.user().email).toBe('email@email.com')
+      expect($scope.editMode()).toBe(false)
 
     it 'should show errors for failed updates', () ->
       $scope.editMode(true)

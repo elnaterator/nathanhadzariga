@@ -49,6 +49,8 @@ angular.module('natesApp.auth')
     User.getCurrent().$update(
       ( () ->
         # success
+        editMode = false
+        cachedUserProps = null
       ), ( () ->
         # errors
         errors = ErrorInterceptor.getErrors()
