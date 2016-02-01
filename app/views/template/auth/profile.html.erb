@@ -12,11 +12,13 @@
 
 <br />
 
-<button class="btn btn-primary" ng-click="toggleDeleteConfirm()">Delete account</button>
+<button class="btn btn-primary" ng-click="confirmDeleteMode(true)">Delete account</button>
 
-<div ng-show="deleteConfirm">
+<div ng-show="confirmDeleteMode()">
   <br/>
   Are you sure you want to delete your account?
-  <a href ng-click="delete()">yes</a>
-  <a href ng-click="toggleDeleteConfirm()">no</a>
+  <a href ng-click="confirmDeleteMode(false)">NO</a>
+  |
+  <a href ng-click="delete()">YES</a>
+
 </div>
