@@ -31,34 +31,45 @@ describe 'AuthSrvc', () ->
     AuthSrvc.setToken('someToken')
     expect(AuthSrvc.getToken()).toBe('someToken')
 
-  it 'should send Authorization header if token saved', () ->
-    AuthSrvc.setToken('someToken')
-    config = { headers: {}}
-    AuthSrvc.request(config)
-    expect(config.headers['Authorization']).toBe('Token token="someToken"')
 
-  it 'should NOT send Authorization header if NO token saved', () ->
-    config = { headers: {}}
-    AuthSrvc.request(config)
-    expect(config.headers['Authorization']).toBeUndefined()
-
-
-  describe 'http interceptor', () ->
+  describe 'http interceptors', () ->
 
     it 'should add interceptor to $httpProvider', () ->
       expect($httpProvider.interceptors).toContain('AuthSrvc')
 
-    it 'should send Authorization header when token set', () ->
-      AuthSrvc.setToken('someToken')
-      $httpBackend.expect('GET', 'http://example.com', null, (headers) ->
-        return headers.Authorization == 'Token token="someToken"'
-      ).respond(200,'')
-      $http.get('http://example.com')
-      $httpBackend.flush()
+    describe 'sending token in request', () ->
 
-    it 'should NOT send Authorization header when token NOT set', () ->
-      $httpBackend.expect('GET', 'http://example.com', null, (headers) ->
-        return headers.Authorization == undefined
-      ).respond(200,'')
-      $http.get('http://example.com')
-      $httpBackend.flush()
+      it 'should only send Authorization header if token is stored', () ->
+        config = { headers: {}}
+        # no token stored
+        AuthSrvc.request(config)
+        expect(config.headers['Authorization']).toBeUndefined()
+        # with token stored
+        AuthSrvc.setToken('someToken')
+        AuthSrvc.request(config)
+        expect(config.headers['Authorization']).toBe('Token token="someToken"')
+
+      it 'should intercept http requests', () ->
+        AuthSrvc.setToken('someToken')
+        $httpBackend.expect('GET', 'http://example.com', null, (headers) ->
+          return headers.Authorization == 'Token token="someToken"'
+        ).respond(200,'')
+        $http.get('http://example.com')
+        $httpBackend.flush()
+
+    describe 'receiving access token in response', () ->
+
+      it 'should store the token if a token is received in a response', () ->
+        mockResponse = {
+          headers: () ->
+            { access_token: 'someToken' }
+        }
+        AuthSrvc.response(mockResponse)
+        expect(AuthSrvc.getToken()).toBe('someToken')
+
+      it 'should intercept http responses', () ->
+        $httpBackend.expect('GET', 'http://example.com')
+          .respond(200,'',{ access_token: 'someToken' })
+        $http.get('http://example.com')
+        $httpBackend.flush()
+        expect(AuthSrvc.getToken()).toBe('someToken')

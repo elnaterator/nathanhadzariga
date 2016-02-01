@@ -4,7 +4,7 @@
 #
 angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
 
-.factory('AuthSrvc', () ->
+.factory('AuthSrvc', ['$q', ($q) ->
 
   tokenKey = 'natesApp-token'
 
@@ -36,9 +36,9 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
     setToken: setToken,
     getToken: getToken,
     request: request,
-    response: response,
+    response: response
   }
-)
+])
 
 .config(['$httpProvider', ($httpProvider) ->
   $httpProvider.interceptors.push('AuthSrvc')
