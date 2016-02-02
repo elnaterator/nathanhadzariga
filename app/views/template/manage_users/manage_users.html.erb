@@ -41,6 +41,13 @@
       <label>email</label>
       <input ng-model="user().email" class="form-control"/>
     </div>
+    <div class="form-group">
+      <label>role</label>
+      <select ng-model="user().role" class="form-control">
+        <option value="USER">USER</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+    </div>
     <div ng-hide="editMode()" class="form-group">
       <label>password</label>
       <input ng-model="user().password" class="form-control" type="password"/>
