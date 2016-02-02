@@ -115,11 +115,7 @@ class UsersControllerTest < ActionController::TestCase
   describe 'with token, role user (non admin)' do
 
     token = nil
-
-    before do
-      token = AuthenticationService.tokenize({user_id: 2}) # role user
-      request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(token)
-    end
+    before { token = authenticate_as('USER') }
 
     it 'should not allow access to index or create' do
       get :index
@@ -158,11 +154,7 @@ class UsersControllerTest < ActionController::TestCase
   describe 'with token, role admin' do
 
     token = nil
-
-    before do
-      token = AuthenticationService.tokenize({user_id: 1})
-      request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(token)
-    end
+    before { token = authenticate_as('ADMIN') }
 
     describe 'index' do
 

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   post '/users/login', to: 'users#login'
   post '/users/signup', to: 'users#signup'
 
+  resources :posts, only: [:index, :create, :show, :update, :destroy]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

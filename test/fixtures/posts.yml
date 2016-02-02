@@ -1,0 +1,12 @@
+
+one:
+  id: 1
+  title: 'First post'
+  body: 'This is my first post.'
+  author_id: 1
+
+two:
+  id: 2
+  title: 'Second post'
+  body: 'This is my second post.'
+  author_id: 1

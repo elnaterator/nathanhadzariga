@@ -7,4 +7,10 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def authenticate_as role
+    user = User.find_by(role: role)
+    token = AuthenticationService.tokenize({user_id: user.id})
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(token)
+    return token
+  end
 end
