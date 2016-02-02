@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
   # POST /users/signup
   def signup
-    @user = User.new(user_params)
+    @user = User.new(user_params.except(:role))
     if @user.save
       set_access_token @user
       render :show, status: :created, location: @user
@@ -51,7 +51,9 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
+    update_params = user_params
+    update_params.except!(:role) if !@current_user.admin?
+    if @user.update(update_params)
       render :show, status: :ok, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -66,17 +68,26 @@ class UsersController < ApplicationController
 
   private
 
-    def set_user
-      @user = User.find(params[:id])
-    end
+    # user param filters
 
     def user_params
-      params.permit(:name, :email, :password, :password_confirmation)
+      params.permit(:name, :email, :role, :password, :password_confirmation)
+    end
+
+    # helpers
+
+    def set_user
+      @user = User.find(params[:id])
     end
 
     def verify_self_or_admin
       return if @user && @user.id == @current_user.id
       verify_admin
+    end
+
+    def role_modified?
+      new_role = user_params[:role]
+      new_role && @user.role != new_role
     end
 
     def set_access_token user

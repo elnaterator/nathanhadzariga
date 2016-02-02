@@ -12,7 +12,7 @@
       <h1>Users</h1>
       <ul>
         <li ng-repeat="user in users()">
-          {{user.name}} | {{user.email}} |
+          {{user.name}} | {{user.email}} | {{user.role}} |
           <a href ng-click="editUser(user.id)">edit</a> |
           <a href ng-click="deleteUser(user.id)">delete</a>
         </li>

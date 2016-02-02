@@ -14,6 +14,10 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
+  #
+  # Not logged in
+  #
+
   describe 'with no token' do
 
     it 'should reject access to index, show, create, update, and destroy' do
@@ -92,10 +96,21 @@ class UsersControllerTest < ActionController::TestCase
           # uses correct algorithm
           assert_equal 'HS256', decoded_token[1]['alg']
         end
+
+        it 'should not allow user to specify role' do
+          post :signup, { role: 'ADMIN', email: 'test@test.com', name: 'Bill', password: 'password', password_confirmation: 'password'}
+          assert_response 201
+          u = User.find_by(email: 'test@test.com')
+          assert_equal 'USER', u.role
+        end
       end
     end
 
   end
+
+  #
+  # Logged in as a normal user
+  #
 
   describe 'with token, role user (non admin)' do
 
@@ -128,7 +143,17 @@ class UsersControllerTest < ActionController::TestCase
       assert_response 204
     end
 
+    it 'should not let user update role (admin or user)' do
+      patch(:update, { id: 2, name: 'Bill', role: 'ADMIN' })
+      assert_response 200
+      assert_equal 'USER', User.find(2).role
+    end
+
   end
+
+  #
+  # Logged in as administrator
+  #
 
   describe 'with token, role admin' do
 
@@ -156,17 +181,18 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     describe 'create' do
-      it 'should create user' do
+      it 'should create user (including role)' do
         assert_difference('User.count') do
           post(
             :create,
-            { name: 'Henry Henderson', email: 'henry@test.com', password: 'hello123', password_confirmation: 'hello123' }
+            { role: 'ADMIN', name: 'Henry Henderson', email: 'henry@test.com', password: 'hello123', password_confirmation: 'hello123' }
           )
         end
         assert_response :success
         user = JSON.parse(@response.body)
         assert_equal 'Henry Henderson', user['name']
         assert_equal 'henry@test.com', user['email']
+        assert_equal 'ADMIN', user['role']
       end
     end
 
@@ -193,6 +219,13 @@ class UsersControllerTest < ActionController::TestCase
         user.reload
         assert_equal 'Andy A Anderson', user[:name]
         assert_equal 'andy@test.com', user[:email]
+      end
+
+      it 'should be able to update user role' do
+        assert_equal 'USER', User.find(2).role
+        patch(:update, { id: 2, role: 'ADMIN' })
+        assert_response 200
+        assert_equal 'ADMIN', User.find(2).role
       end
     end
 
