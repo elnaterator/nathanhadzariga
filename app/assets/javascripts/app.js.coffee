@@ -1,7 +1,8 @@
 angular.module('natesApp',[
   'ngRoute',
   'natesApp.auth',
-  'natesApp.manageUsers'
+  'natesApp.manageUsers',
+  'natesApp.blog'
   ])
 
 # lodash integration
@@ -28,7 +29,8 @@ angular.module('natesApp',[
     controller: 'ManageUsersCtrl'
   })
   .when('/blog', {
-    templateUrl: '/template/blog/blog'
+    templateUrl: '/template/blog/blog',
+    controller: 'BlogCtrl'
   })
 
   #$locationProvider.html5Mode(true);

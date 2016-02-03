@@ -1,1 +1,10 @@
 <h2>Blog</h2>
+
+<div ng-repeat="post in posts()">
+
+  <h3>{{post.title}}</h3>
+  <div>{{post.created_at  | date:'yyyy-MM-dd HH:mm:ss Z'}}</div>
+
+  <p>{{post.body}}</p>
+
+</div>
