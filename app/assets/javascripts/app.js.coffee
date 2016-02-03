@@ -27,6 +27,9 @@ angular.module('natesApp',[
     templateUrl: '/template/manage_users/manage_users',
     controller: 'ManageUsersCtrl'
   })
+  .when('/blog', {
+    templateUrl: '/template/blog/blog'
+  })
 
   #$locationProvider.html5Mode(true);
 
