@@ -1,10 +1,21 @@
-<h2>Blog</h2>
-
 <div ng-repeat="post in posts()">
 
-  <h3>{{post.title}}</h3>
-  <div>{{post.created_at  | date:'yyyy-MM-dd HH:mm:ss Z'}}</div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <h1>{{post.title}}</h1>
+    </div>
+  </div>
 
-  <p>{{post.body}}</p>
+  <div class="row" style="color:grey;font-style:italic;">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      {{post.author_id}} | {{post.created_at  | date:'MMM d, yyyy H:m a'}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6" style="margin-top:20px">
+      <p>{{post.body}}</p>
+    </div>
+  </div>
 
 </div>
