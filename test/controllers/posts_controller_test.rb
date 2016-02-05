@@ -32,6 +32,23 @@ class PostsControllerTest < ActionController::TestCase
       delete :destroy, {id:1}
       assert_response 401
     end
+
+    describe 'index' do
+      it 'should return author name for each post' do
+        get :index
+        post = JSON.parse(@response.body)[0]
+        assert_equal 'Andy Anderson', post['author_name']
+      end
+    end
+
+    describe 'show' do
+      it 'should return author name in post' do
+        get :show, {id: 1}
+        post = JSON.parse(@response.body)
+        assert_equal 'Andy Anderson', post['author_name']
+      end
+    end
+
   end
 
   describe 'logged in as user' do
