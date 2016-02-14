@@ -38,6 +38,14 @@ angular.module('natesApp.manageUsers',['natesApp.auth', 'natesApp.err'])
 
   # edit mode
 
+  $scope.newUser = () ->
+    if editMode
+      $scope.isShowUserForm = true
+    else
+      $scope.isShowUserForm = !$scope.isShowUserForm
+    $scope.editMode(false)
+
+
   $scope.editMode = (em) ->
     if em == false
       user = new User
