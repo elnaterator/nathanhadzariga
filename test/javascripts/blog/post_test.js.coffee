@@ -37,3 +37,23 @@ describe 'Post', () ->
       post = Post.get({id:123})
       $httpBackend.flush()
       expect(post.title).toBe('Post1')
+
+    it 'should create new post with save', () ->
+      $httpBackend.expect('POST','/posts',{title:'Title',body:'Body'})
+        .respond(200,{id:123,title:'Title',body:'Body'})
+      post = new Post({title:'Title',body:'Body'})
+      post.$save()
+      $httpBackend.flush()
+
+    it 'should update post with update', () ->
+      $httpBackend.expect('PATCH','/posts/123',{id:123,title:'Title',body:'Body'})
+        .respond(200,{id:123,title:'Title',body:'Body'})
+      post = new Post({id:123,title:'Title',body:'Body'})
+      post.$update()
+      $httpBackend.flush()
+
+    it 'should delete post with delete', () ->
+      $httpBackend.expect('DELETE','/posts/123').respond(200,'')
+      post = new Post({id:123})
+      post.$delete()
+      $httpBackend.flush()

@@ -24,13 +24,12 @@ angular.module('natesApp',[
     templateUrl: '/template/auth/profile',
     controller: 'ProfileCtrl'
   })
-  .when('/manageusers', {
-    templateUrl: '/template/manage_users/manage_users',
-    controller: 'ManageUsersCtrl'
-  })
   .when('/blog', {
     templateUrl: '/template/blog/blog',
     controller: 'BlogCtrl'
+  })
+  .when('/dashboard', {
+    templateUrl: '/template/dashboard'
   })
 
   #$locationProvider.html5Mode(true);

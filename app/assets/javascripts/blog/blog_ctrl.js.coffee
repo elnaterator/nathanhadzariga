@@ -1,4 +1,4 @@
-angular.module('natesApp.blog',['ngResource'])
+angular.module('natesApp.blog',['ngResource','natesApp.err'])
 
 .controller('BlogCtrl', ['$scope', 'Post', ($scope, Post) ->
 

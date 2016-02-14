@@ -1,6 +1,6 @@
 angular.module('natesApp.auth')
 
-.controller('ProfileCtrl', ['$scope', 'User', '$location', 'ErrorInterceptor', ($scope, User, $location, ErrorInterceptor) ->
+.controller('ProfileCtrl', ['$scope', 'User', '$location', 'ErrSrvc', ($scope, User, $location, ErrSrvc) ->
 
   confirmDeleteMode = false
   editMode = false
@@ -53,7 +53,7 @@ angular.module('natesApp.auth')
         cachedUserProps = null
       ), ( () ->
         # errors
-        errors = ErrorInterceptor.getErrors()
+        errors = ErrSrvc.getErrors()
       )
     )
 

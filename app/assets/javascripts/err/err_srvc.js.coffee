@@ -1,6 +1,6 @@
 angular.module('natesApp.err', [])
 
-.factory('ErrorInterceptor', ['$q', ($q) ->
+.factory('ErrSrvc', ['$q', ($q) ->
 
   errors = []
 
@@ -33,5 +33,5 @@ angular.module('natesApp.err', [])
 ])
 
 .config(['$httpProvider', ($httpProvider) ->
-  $httpProvider.interceptors.push('ErrorInterceptor')
+  $httpProvider.interceptors.push('ErrSrvc')
 ])

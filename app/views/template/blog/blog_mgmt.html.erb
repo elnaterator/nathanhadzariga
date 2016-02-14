@@ -1,0 +1,31 @@
+<ul>
+  <li ng-repeat="post in posts()">{{post.title}} | {{post.author_name}} |
+    <a href ng-click="delete(post.id)">delete</a>
+  </li>
+</ul>
+
+
+<a href ng-click="isAddNewPost = !isAddNewPost">New post</a>
+<div ng-show="isAddNewPost">
+  <h2>Add Post</h2>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input id="title" ng-model="post().title" class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label for="body">Body</label>
+        <textarea id="body" ng-model="post().body" class="form-control" rows="8"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="author">Author ID</label>
+        <input id="author" ng-model="post().author_id" class="form-control"/>
+      </div>
+      <button class="btn btn-primary">Add</button>
+
+    </div>
+  </div>
+</div>

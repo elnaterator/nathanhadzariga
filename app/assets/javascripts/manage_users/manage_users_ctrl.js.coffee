@@ -4,7 +4,7 @@ angular.module('natesApp.manageUsers',['natesApp.auth', 'natesApp.err'])
 # User controller
 #
 
-.controller('ManageUsersCtrl', ['$scope','$http', 'User', 'AuthSrvc', 'ErrorInterceptor', ($scope, $http, User, AuthSrvc, ErrorInterceptor) ->
+.controller('ManageUsersCtrl', ['$scope','$http', 'User', 'AuthSrvc', 'ErrSrvc', ($scope, $http, User, AuthSrvc, ErrSrvc) ->
 
   # initialization
 
@@ -81,6 +81,6 @@ angular.module('natesApp.manageUsers',['natesApp.auth', 'natesApp.err'])
   # error handling
 
   $scope.errors = () ->
-    ErrorInterceptor.getErrors()
+    ErrSrvc.getErrors()
 
 ])

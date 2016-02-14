@@ -1,6 +1,6 @@
 angular.module('natesApp.auth')
 
-.controller('LoginCtrl', ['$scope', 'User', 'AuthSrvc', '$location', 'ErrorInterceptor', ($scope, User, AuthSrvc, $location, ErrorInterceptor) ->
+.controller('LoginCtrl', ['$scope', 'User', 'AuthSrvc', '$location', 'ErrSrvc', ($scope, User, AuthSrvc, $location, ErrSrvc) ->
 
   $scope.user = new User()
   $scope.isNewUser = false
@@ -30,7 +30,7 @@ angular.module('natesApp.auth')
         $location.path('/')
       ),
       ( (response) ->
-        $scope.errors = _.concat($scope.errors, ErrorInterceptor.getErrors())
+        $scope.errors = _.concat($scope.errors, ErrSrvc.getErrors())
       )
     )
 
