@@ -4,14 +4,12 @@
   </li>
 </ul>
 
-
 <a href ng-click="isAddNewPost = !isAddNewPost">New post</a>
 <div ng-show="isAddNewPost">
   <h2>Add Post</h2>
 
   <div class="row">
     <div class="col-xs-12 col-sm-6">
-
       <div class="form-group">
         <label for="title">Title</label>
         <input id="title" ng-model="post().title" class="form-control"/>
@@ -22,10 +20,11 @@
       </div>
       <div class="form-group">
         <label for="author">Author ID</label>
-        <input id="author" ng-model="post().author_id" class="form-control"/>
+        <select id="author" ng-model="post().author_id" class="form-control">
+          <option ng-repeat="author in authors()" value="{{author.id}}">{{author.id}} - {{author.name}}</option>
+        </select>
       </div>
-      <button class="btn btn-primary">Add</button>
-
+      <button class="btn btn-primary" ng-click="create()">Add</button>
     </div>
   </div>
 </div>

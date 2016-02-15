@@ -4,14 +4,16 @@ describe 'BlogMgmtCtrl', () ->
   $controller = null
   $scope = null
   Post = null
+  User = null
 
   beforeEach(() ->
     module('natesApp.blog')
-    inject( (_$controller_, _$httpBackend_, _Post_) ->
+    inject( (_$controller_, _$httpBackend_, _Post_, _User_) ->
       $scope = {}
       $controller = _$controller_
       $httpBackend = _$httpBackend_
       Post = _Post_
+      User = _User_
     )
   )
 
@@ -20,18 +22,23 @@ describe 'BlogMgmtCtrl', () ->
     $httpBackend.verifyNoOutstandingRequest()
   )
 
-  it 'should retrieve list of posts on instantiation', () ->
+  it 'should retrieve list of posts and authors on instantiation', () ->
     $httpBackend.expect('GET', '/posts')
       .respond(200,[{title:'Post1'},{title:'Post2'}])
+    $httpBackend.expect('GET', '/users')
+      .respond(200,[{id:123,name:'Andy Anderson'},{id:456,name:'Bill Billson'}])
     $controller('BlogMgmtCtrl', {$scope:$scope})
     $httpBackend.flush()
     expect($scope.posts().length).toBe(2)
+    expect($scope.authors().length).toBe(2)
 
   describe 'instantiated', () ->
 
     beforeEach( () ->
       $httpBackend.expect('GET', '/posts')
         .respond(200,[{id:123,title:'Post1',body:'Body'},{id:456,title:'Post2',body:'Body'}])
+      $httpBackend.expect('GET', '/users')
+        .respond(200,[{id:123,name:'Andy Anderson'},{id:456,name:'Bill Billson'}])
       $controller('BlogMgmtCtrl', {$scope:$scope})
       $httpBackend.flush()
     )

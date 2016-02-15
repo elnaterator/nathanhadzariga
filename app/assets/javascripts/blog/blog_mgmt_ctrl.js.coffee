@@ -1,9 +1,10 @@
 angular.module('natesApp.blog')
 
-.controller('BlogMgmtCtrl', ['$scope', 'Post', 'ErrSrvc', ($scope, Post, ErrSrvc) ->
+.controller('BlogMgmtCtrl', ['$scope', 'Post', 'User', 'ErrSrvc', ($scope, Post, User, ErrSrvc) ->
 
   posts = []
   post = new Post
+  authors = []
   editMode = false
   cachedPostProps = null
   errors = []
@@ -13,6 +14,9 @@ angular.module('natesApp.blog')
 
   $scope.post = () ->
     post
+
+  $scope.authors = () ->
+    authors
 
   $scope.errors = () ->
     errors
@@ -38,7 +42,7 @@ angular.module('natesApp.blog')
   $scope.create = () ->
     post.$save(( () ->
       # success
-      posts.push(post)
+      posts.splice(0,0,post)
       post = new Post
     ), ( () ->
       # error
@@ -67,5 +71,6 @@ angular.module('natesApp.blog')
     ))
 
   posts = Post.query()
+  authors = User.query()
 
 ])
