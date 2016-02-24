@@ -29,6 +29,7 @@ angular.module('natesApp.blog')
         editMode = false
         for k,v of cachedPostProps
           post[k] = v
+        post = new Post
     editMode
 
   $scope.edit = (id) ->

@@ -92,9 +92,16 @@ describe 'BlogMgmtCtrl', () ->
         $scope.post().title = 'Updated'
         $scope.post().body = 'Updated'
         $scope.editMode(false) # cancel edit
-        expect($scope.post().title).toBe('Post2')
-        expect($scope.post().body).toBe('Body')
         expect($scope.editMode()).toBe(false)
+        # find the post that was being edited
+        i = _.findIndex($scope.posts(), ['id',456])
+        p = $scope.posts()[i]
+        # and make sure it get reset
+        expect(p.title).toBe('Post2')
+        expect(p.body).toBe('Body')
+        expect($scope.post().title).toBeUndefined()
+        expect($scope.post().body).toBeUndefined()
+
 
       it 'should update a post and reset scope on success', () ->
         $httpBackend.expect('PATCH','/posts/123',{id:123,title:'Post1',body:'Updated'})
