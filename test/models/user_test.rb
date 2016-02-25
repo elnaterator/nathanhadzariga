@@ -22,32 +22,43 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
   end
 
-  it "should validate password for new user" do
-    user2 = User.new(name: 'Henry', email: 'henry@email.com')
-    assert_not user2.valid?
-    user2.password = 'password'
-    assert_not user2.valid?
-    user2.password_confirmation = 'password'
-    assert user2.valid?
-  end
+  describe 'password' do
 
-  it "should not validate password or password_confirm if user already persisted with password_digest" do
-    user2 = users(:one)
-    assert user2.password.nil?
-    assert user2.password_confirmation.nil?
-    assert user2.password_digest
-    assert user2.valid?
-  end
+    it "should be required for new user" do
+      user2 = User.new(name: 'Henry', email: 'henry@email.com')
+      assert_not user2.valid?
+      user2.password = 'password'
+      assert_not user2.valid?
+      user2.password_confirmation = 'password'
+      assert user2.valid?
+    end
 
-  it "should allow user to change password" do
-    user.password = 'another'
-    user.password_confirmation = 'another'
-    assert user.save
-  end
+    it "should be at least 8 characters long" do
+      user2 = User.new(name: 'Henry', email: 'henry@email.com')
+      user2.password = 'passwrd'
+      user2.password_confirmation = 'passwrd'
+      assert_not user2.valid?
+    end
 
-  it "should authenticate users password" do
-    assert_not user.authenticate('notright')
-    assert user.authenticate('hello123')
+    it "should not be required for existing user" do
+      user2 = users(:one)
+      assert user2.password.nil?
+      assert user2.password_confirmation.nil?
+      assert user2.password_digest
+      assert user2.valid?
+    end
+
+    it "should be updateable" do
+      user.password = 'different'
+      user.password_confirmation = 'different'
+      assert user.save
+    end
+
+    it "should be authenticated" do
+      assert_not user.authenticate('notright')
+      assert user.authenticate('hello123')
+    end
+
   end
 
   describe 'roles' do

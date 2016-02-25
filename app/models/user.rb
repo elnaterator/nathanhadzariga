@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   # on create the password and password_confirmation will be required
   has_secure_password
   validates :password_confirmation, presence: true, if: '!password.nil?'
+  validates :password, length: { minimum: 8 }, if: '!password.nil?'
 
   def admin?
     role == 'ADMIN'
