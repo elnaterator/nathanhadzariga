@@ -1,13 +1,17 @@
 <h1>Dashboard</h1>
 
-<a href ng-click="isShowManageBlog = !isShowManageBlog"><h2>Manage Blog</h2></a>
-<div ng-controller="BlogMgmtCtrl"
-  ng-include="'/template/blog/blog_mgmt'"
-  ng-show="isShowManageBlog"></div>
+<div>
+  <a href ng-click="isShowManageBlog = !isShowManageBlog"><h2>Manage Blog</h2></a>
+  <div ng-controller="BlogMgmtCtrl"
+    ng-include="'/template/blog/blog_mgmt'"
+    ng-show="isShowManageBlog"
+    class="dash-section"></div>
+</div>
 
-<hr />
-
-<a href ng-click="isShowManageUsers = !isShowManageUsers"><h2>Manage Users</h2></a>
-<div ng-controller="ManageUsersCtrl"
-  ng-include="'/template/manage_users/manage_users'"
-  ng-show="isShowManageUsers"></div>
+<div>
+  <a href ng-click="isShowManageUsers = !isShowManageUsers"><h2>Manage Users</h2></a>
+  <div ng-controller="ManageUsersCtrl"
+    ng-include="'/template/manage_users/manage_users'"
+    ng-show="isShowManageUsers"
+    class="dash-section"></div>
+</div>
