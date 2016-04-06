@@ -8,6 +8,7 @@ angular.module('natesApp',[
 # lodash integration
 .run(['$rootScope', ($rootScope) ->
   $rootScope._ = window._
+
 ])
 
 .config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
