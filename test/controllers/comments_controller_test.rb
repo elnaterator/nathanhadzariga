@@ -12,4 +12,80 @@ class CommentsControllerTest < ActionController::TestCase
     end
   end
 
+  describe 'index' do
+    before do
+      get :index, {post_id: 1}
+    end
+    it 'should be publicly accessible' do
+      assert_response 200
+    end
+    it 'should return comments for post' do
+      resp = JSON.parse(@response.body)
+      assert_equal 2, resp.length
+      assert_equal 'Comment one', resp[0]['body']
+      assert_equal 'Comment two', resp[1]['body']
+    end
+  end
+
+  describe 'show' do
+    it 'should be publicly accessible' do
+      get :show, {post_id: 1, id: 2}
+      assert_response 200
+    end
+    it 'should not return comment if not associated to post' do
+      get :show, {post_id: 1, id: 3}
+      assert_response 404
+    end
+  end
+
+  let(:author) {User.find(1)}
+
+  describe 'create' do
+    it 'should not be allowed if not logged in' do
+      post :create, {post_id: 1, body: 'My comment', author_id: author.id}
+      assert_response 401
+    end
+    describe 'while logged in' do
+      before { authenticate_as 'USER' }
+      it 'should successfully create new comment' do
+        assert_difference('Comment.count') do
+          post :create, {post_id: 1, body: 'My comment', author_id: author.id}
+          assert_response 201
+        end
+      end
+    end
+  end
+
+  describe 'update' do
+    it 'should not be allowed if not logged in' do
+      patch :update, {post_id: 1, id: 1, body: 'Updated comment', author_id: author.id}
+      assert_response 401
+    end
+    describe 'while logged in' do
+      before { authenticate_as 'USER' }
+      it 'should successfully update comment' do
+        patch :update, {post_id: 1, id: 1, body: 'Updated comment', author_id: author.id}
+        assert_response 200
+        comment = Comment.find(1)
+        assert_equal 'Updated comment', comment.body
+      end
+    end
+  end
+
+  describe 'destroy' do
+    it 'should not be allowed if not logged in' do
+      delete :destroy, {post_id: 1, id: 1}
+      assert_response 401
+    end
+    describe 'while logged in' do
+      before { authenticate_as 'USER' }
+      it 'should successfully delete comment' do
+        assert_difference('Comment.count', -1) do
+          delete :destroy, {post_id: 1, id: 1}
+          assert_response 204
+        end
+      end
+    end
+  end
+
 end
