@@ -17,7 +17,7 @@ class PostsControllerTest < ActionController::TestCase
       get :index
       assert_response 200
       resp = JSON.parse(@response.body)
-      assert_equal 2, resp.length
+      assert_equal 3, resp.length
       get :show, {id: 1}
       assert_response 200
       resp = JSON.parse(@response.body)

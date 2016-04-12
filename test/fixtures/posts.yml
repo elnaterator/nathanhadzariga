@@ -10,3 +10,9 @@ two:
   title: 'Second post'
   body: 'This is my second post.'
   author_id: 1
+
+three:
+  id: 3
+  title: 'Third post'
+  body: 'This is the third post.'
+  author_id: 2

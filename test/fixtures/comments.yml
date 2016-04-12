@@ -22,3 +22,9 @@ four:
   post_id: 2
   body: 'Comment four'
   author_id: 2
+
+five:
+  id: 5
+  post_id: 3
+  body: 'Comment five'
+  author_id: 2

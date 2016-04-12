@@ -20,6 +20,7 @@ class CommentsController < ApplicationController
   end
 
   def update
+    render_unauthorized && return if @comment.author_id != @current_user.id
     if @comment.update(comment_params)
       render :show, status: :ok
     else
@@ -28,6 +29,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    render_unauthorized && return if @comment.author_id != @current_user.id
     @comment.destroy
     head :no_content
   end
