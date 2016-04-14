@@ -61,19 +61,29 @@ class CommentsControllerTest < ActionController::TestCase
       patch :update, {post_id: 1, id: 1, body: 'Updated comment', author_id: author.id}
       assert_response 401
     end
-    describe 'while logged in' do
-      before { authenticate_as 1 }
+    describe 'while logged in as normal user' do
+      before { authenticate_as 2 }
       it 'should successfully update comments that belong to user' do
-        comment = Comment.find_by(author_id: 1)
+        comment = Comment.find_by(author_id: 2)
         patch :update, {post_id: comment.post.id, id: comment.id, body: 'Updated comment', author_id: comment.author.id}
         assert_response 200
-        comment = Comment.find(1)
+        comment.reload
         assert_equal 'Updated comment', comment.body
       end
       it 'should not allow updating another users comment' do
-        comment = Comment.find_by(author_id: 2)
+        comment = Comment.find_by(author_id: 1)
         patch :update, {post_id: comment.post.id, id: comment.id, body: 'Updated comment', author_id: comment.author.id}
         assert_response 401
+      end
+    end
+    describe 'while logged in as admin' do
+      before { authenticate_as 1 }
+      it 'should successfully update another users comment' do
+        comment = Comment.find_by(author_id: 2)
+        patch :update, {post_id: comment.post.id, id: comment.id, body: 'Updated comment', author_id: comment.author.id}
+        assert_response 200
+        comment.reload
+        assert_equal 'Updated comment', comment.body
       end
     end
   end
@@ -83,19 +93,29 @@ class CommentsControllerTest < ActionController::TestCase
       delete :destroy, {post_id: 1, id: 1}
       assert_response 401
     end
-    describe 'while logged in' do
-      before { authenticate_as 1 }
+    describe 'while logged in as normal user' do
+      before { authenticate_as 2 }
       it 'should successfully delete comment by current user' do
         assert_difference('Comment.count', -1) do
-          comment = Comment.find_by(author_id: 1)
+          comment = Comment.find_by(author_id: 2)
           delete :destroy, {post_id: comment.post.id, id: comment.id}
           assert_response 204
         end
       end
       it 'should not allow deleting comment by another user' do
-        comment = Comment.find_by(author_id: 2)
+        comment = Comment.find_by(author_id: 1)
         delete :destroy, {post_id: comment.post.id, id: comment.id}
         assert_response 401
+      end
+    end
+    describe 'while logged in as admin' do
+      before { authenticate_as 1 }
+      it 'should allow deleting another users comment' do
+        assert_difference('Comment.count', -1) do
+          comment = Comment.find_by(author_id: 2)
+          delete :destroy, {post_id: comment.post.id, id: comment.id}
+          assert_response 204
+        end
       end
     end
   end
