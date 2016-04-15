@@ -12,17 +12,44 @@ class PostsControllerTest < ActionController::TestCase
     end
   end
 
-  describe 'not logged in' do
-    it 'should allow access to index and show' do
-      get :index
-      assert_response 200
-      resp = JSON.parse(@response.body)
-      assert_equal 3, resp.length
-      get :show, {id: 1}
-      assert_response 200
-      resp = JSON.parse(@response.body)
-      assert_equal 'First post', resp['title']
+  describe 'index' do
+    describe 'not logged in' do
+      before { get :index }
+      it 'should be successful' do
+        assert_response 200
+      end
+      it 'should return all posts' do
+        resp = JSON.parse(@response.body)
+        assert_equal 3, resp.length
+      end
+      it 'should return author name in each post' do
+        post = JSON.parse(@response.body)[0]
+        assert_equal 1, post['author_id']
+        assert_equal 'Andy Anderson', post['author_name']
+      end
     end
+  end
+
+  describe 'show' do
+    describe 'not logged in' do
+      before { get :show, {id: 1} }
+      it 'should be successful' do
+        assert_response 200
+      end
+      it 'should return post' do
+        resp = JSON.parse(@response.body)
+        assert_equal 'First post', resp['title']
+        assert_equal 'This is my first post.', resp['body']
+      end
+      it 'should return author name' do
+        resp = JSON.parse(@response.body)
+        assert_equal 1, resp['author_id']
+        assert_equal 'Andy Anderson', resp['author_name']
+      end
+    end
+  end
+
+  describe 'not logged in' do
 
     it 'should not allow access to create, update, and destroy' do
       post :create, {title:'Test title',body:'test body.',author_id:123}
@@ -31,22 +58,6 @@ class PostsControllerTest < ActionController::TestCase
       assert_response 401
       delete :destroy, {id:1}
       assert_response 401
-    end
-
-    describe 'index' do
-      it 'should return author name for each post' do
-        get :index
-        post = JSON.parse(@response.body)[0]
-        assert_equal 'Andy Anderson', post['author_name']
-      end
-    end
-
-    describe 'show' do
-      it 'should return author name in post' do
-        get :show, {id: 1}
-        post = JSON.parse(@response.body)
-        assert_equal 'Andy Anderson', post['author_name']
-      end
     end
 
   end
