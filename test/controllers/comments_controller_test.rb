@@ -25,16 +25,28 @@ class CommentsControllerTest < ActionController::TestCase
       assert_equal 'Comment one', resp[0]['body']
       assert_equal 'Comment two', resp[1]['body']
     end
+    it 'should have author name in each post' do
+      comment = JSON.parse(@response.body)[0]
+      assert_equal 1, comment['author_id']
+      assert_equal 'Andy Anderson', comment['author_name']
+    end
   end
 
   describe 'show' do
-    it 'should be publicly accessible' do
-      get :show, {post_id: 1, id: 2}
-      assert_response 200
-    end
-    it 'should not return comment if not associated to post' do
+    it 'should be not found if post id and comment id dont match' do
       get :show, {post_id: 1, id: 3}
       assert_response 404
+    end
+    describe 'comment matches post and not logged in' do
+      before { get :show, {post_id: 1, id: 2} }
+      it 'should succeed' do
+        assert_response 200
+      end
+      it 'should have author_name in response' do
+        comment = JSON.parse(@response.body)
+        assert_equal 1, comment['author_id']
+        assert_equal 'Andy Anderson', comment['author_name']
+      end
     end
   end
 
