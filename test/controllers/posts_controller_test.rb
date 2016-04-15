@@ -27,6 +27,12 @@ class PostsControllerTest < ActionController::TestCase
         assert_equal 1, post['author_id']
         assert_equal 'Andy Anderson', post['author_name']
       end
+      it 'should return comments for post' do
+        post = JSON.parse(@response.body)[0]
+        assert_equal 1, post['id']
+        comments = post['comments']
+        assert_equal 2, comments.length
+      end
     end
   end
 
@@ -45,6 +51,12 @@ class PostsControllerTest < ActionController::TestCase
         resp = JSON.parse(@response.body)
         assert_equal 1, resp['author_id']
         assert_equal 'Andy Anderson', resp['author_name']
+      end
+      it 'should return comments for post' do
+        post = JSON.parse(@response.body)
+        assert_equal 1, post['id']
+        comments = post['comments']
+        assert_equal 2, comments.length
       end
     end
   end
