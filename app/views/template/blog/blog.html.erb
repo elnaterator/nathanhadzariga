@@ -18,4 +18,17 @@
     </div>
   </div>
 
+  <!-- comments -->
+  <div class="well" style="padding:5px;" >
+
+    <p ng-if="post.comments.length <= 0" style="margin:0;color:grey;font-style:italic;">No comments</p>
+
+    <div ng-repeat="comment in post.comments" ng-if="post.comments.length > 0">
+      <p style="color:grey;font-style:italic;margin-bottom:5px">{{comment.author_name}} | {{comment.created_at  | date:'MMM d, yyyy H:m a'}}</p>
+      <p style="margin:0px">{{comment.body}}</p>
+      <hr style="margin:5px;" ng-if="notLast(post.comments, comment)"/>
+    </div>
+
+  </div>
+
 </div>
