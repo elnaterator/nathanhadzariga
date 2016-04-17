@@ -27,37 +27,61 @@ describe 'AuthSrvc', () ->
   it 'should be defined', () ->
     expect(AuthSrvc).toBeDefined()
 
-  it 'should store a token', () ->
+  it 'should store a token as a string', () ->
     AuthSrvc.setToken('someToken')
     expect(AuthSrvc.getToken()).toBe('someToken')
+    
 
-  describe 'has valid token', () ->
+  describe '#getTokenClaims', () ->
 
-    it 'should be false for no token', () ->
+    it 'should return the token claims', () ->
+      claimsIn = {test:'value'}
+      AuthSrvc.setToken(testToken(claimsIn))
+      expect(AuthSrvc.getTokenClaims().test).toBe('value')
+
+    it 'should return null when not logged in', () ->
       AuthSrvc.setToken(null)
-      expect(AuthSrvc.hasValidToken()).toBe(false)
+      expect(AuthSrvc.getTokenClaims()).toBeNull()
 
-    it 'should be false for invalid token', () ->
+    it 'should return null when invalid token', () ->
       AuthSrvc.setToken('someToken')
-      expect(AuthSrvc.hasValidToken()).toBe(false)
+      expect(AuthSrvc.getTokenClaims()).toBeNull()
+
+
+  describe '#isLoggedIn', () ->
+
+    it 'should return false if no token stored', () ->
+      AuthSrvc.setToken(null)
+      expect(AuthSrvc.isLoggedIn()).toBe(false)
+
+    it 'should return true if unexpired token stored', () ->
+      claims = { exp: currTimeInSeconds() + 30 }
+      AuthSrvc.setToken(testToken(claims))
+      expect(AuthSrvc.isLoggedIn()).toBe(true)
+
+    it 'should return false if expired token stored', () ->
+      claims = { exp: currTimeInSeconds() - 30 }
+      AuthSrvc.setToken(testToken(claims))
+      expect(AuthSrvc.isLoggedIn()).toBe(false)
+
+
+  describe '#isTokenExpired', () ->
+
+    it 'should throw error for missing or invalid token', () ->
+      AuthSrvc.setToken(null)
+      expect(AuthSrvc.isTokenExpired).toThrowError()
+      AuthSrvc.setToken('someToken')
+      expect(AuthSrvc.isTokenExpired).toThrowError()
 
     it 'should be false for expired token', () ->
-      currSeconds = Math.round(new Date().getTime() / 1000)
-      claims = JSON.stringify({exp: currSeconds - 60})
-      AuthSrvc.setToken('rufjyq908.' + btoa(claims) + '.ueq0hjdfksahi')
-      expect(AuthSrvc.hasValidToken()).toBe(false)
-
-    it 'should be false for token that will expire in less than 15 seconds', () ->
-      currSeconds = Math.round(new Date().getTime() / 1000)
-      claims = JSON.stringify({exp: currSeconds + 14})
-      AuthSrvc.setToken('rufjyq908.' + btoa(claims) + '.ueq0hjdfksahi')
-      expect(AuthSrvc.hasValidToken()).toBe(false)
+      claims = {exp: currTimeInSeconds() - 60}
+      AuthSrvc.setToken(testToken(claims))
+      expect(AuthSrvc.isTokenExpired()).toBe(true)
 
     it 'should be true for non expired token', () ->
-      currSeconds = Math.round(new Date().getTime() / 1000)
-      claims = JSON.stringify({exp: currSeconds + 60})
-      AuthSrvc.setToken('rufjyq908.' + btoa(claims) + '.ueq0hjdfksahi')
-      expect(AuthSrvc.hasValidToken()).toBe(true)
+      claims = {exp: currTimeInSeconds() + 60}
+      AuthSrvc.setToken(testToken(claims))
+      expect(AuthSrvc.isTokenExpired()).toBe(false)
 
 
   describe 'http interceptors', () ->

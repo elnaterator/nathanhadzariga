@@ -23,18 +23,22 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
       token = t if t && _(t).includes('.')
     return token
 
-  hasValidToken = () ->
-    token = getToken()
-    return false if !token
+  getTokenClaims = () ->
     try
-      claims = JSON.parse(atob(token.split('.')[1]))
-      # check expired
-      expSeconds = claims.exp
-      currSeconds = Math.round(new Date().getTime() / 1000)
-      # if it will expire in less than 15 seconds, just consider it expired
-      return (expSeconds - currSeconds) > 15
+      return JSON.parse(atob(token.split('.')[1]))
     catch error
-      return false
+      return null
+
+  isLoggedIn = () ->
+    claims = getTokenClaims()
+    return false if !claims
+    return false if isTokenExpired(claims)
+    return true
+
+  isTokenExpired = (tokenClaims)->
+    tokenClaims = getTokenClaims() if !tokenClaims
+    throw new Error('No token, unable to check if its expired.') if !tokenClaims
+    return !tokenClaims.exp || tokenClaims.exp <= Math.round(new Date().getTime() / 1000)
 
   request = (config) ->
     config.headers['Authorization'] = 'Token token="' + token + '"' if(token)
@@ -48,7 +52,9 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
   return {
     setToken: setToken,
     getToken: getToken,
-    hasValidToken: hasValidToken,
+    getTokenClaims: getTokenClaims,
+    isLoggedIn: isLoggedIn,
+    isTokenExpired: isTokenExpired,
     request: request,
     response: response
   }
