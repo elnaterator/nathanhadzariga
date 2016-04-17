@@ -5,8 +5,9 @@ angular.module('natesApp',[
   'natesApp.blog'
   ])
 
-# lodash integration
 .run(['$rootScope', ($rootScope) ->
+
+  # lodash integration
   $rootScope._ = window._
 
 ])
