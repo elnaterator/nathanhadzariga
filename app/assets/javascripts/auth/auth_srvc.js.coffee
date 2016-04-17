@@ -23,6 +23,19 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
       token = t if t && _(t).includes('.')
     return token
 
+  hasValidToken = () ->
+    token = getToken()
+    return false if !token
+    try
+      claims = JSON.parse(atob(token.split('.')[1]))
+      # check expired
+      expSeconds = claims.exp
+      currSeconds = Math.round(new Date().getTime() / 1000)
+      # if it will expire in less than 15 seconds, just consider it expired
+      return (expSeconds - currSeconds) > 15
+    catch error
+      return false
+
   request = (config) ->
     config.headers['Authorization'] = 'Token token="' + token + '"' if(token)
     config
@@ -35,6 +48,7 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
   return {
     setToken: setToken,
     getToken: getToken,
+    hasValidToken: hasValidToken,
     request: request,
     response: response
   }

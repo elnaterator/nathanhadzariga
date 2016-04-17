@@ -31,6 +31,34 @@ describe 'AuthSrvc', () ->
     AuthSrvc.setToken('someToken')
     expect(AuthSrvc.getToken()).toBe('someToken')
 
+  describe 'has valid token', () ->
+
+    it 'should be false for no token', () ->
+      AuthSrvc.setToken(null)
+      expect(AuthSrvc.hasValidToken()).toBe(false)
+
+    it 'should be false for invalid token', () ->
+      AuthSrvc.setToken('someToken')
+      expect(AuthSrvc.hasValidToken()).toBe(false)
+
+    it 'should be false for expired token', () ->
+      currSeconds = Math.round(new Date().getTime() / 1000)
+      claims = JSON.stringify({exp: currSeconds - 60})
+      AuthSrvc.setToken('rufjyq908.' + btoa(claims) + '.ueq0hjdfksahi')
+      expect(AuthSrvc.hasValidToken()).toBe(false)
+
+    it 'should be false for token that will expire in less than 15 seconds', () ->
+      currSeconds = Math.round(new Date().getTime() / 1000)
+      claims = JSON.stringify({exp: currSeconds + 14})
+      AuthSrvc.setToken('rufjyq908.' + btoa(claims) + '.ueq0hjdfksahi')
+      expect(AuthSrvc.hasValidToken()).toBe(false)
+
+    it 'should be true for non expired token', () ->
+      currSeconds = Math.round(new Date().getTime() / 1000)
+      claims = JSON.stringify({exp: currSeconds + 60})
+      AuthSrvc.setToken('rufjyq908.' + btoa(claims) + '.ueq0hjdfksahi')
+      expect(AuthSrvc.hasValidToken()).toBe(true)
+
 
   describe 'http interceptors', () ->
 
