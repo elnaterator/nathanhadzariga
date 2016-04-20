@@ -5,10 +5,22 @@ angular.module('natesApp',[
   'natesApp.blog'
   ])
 
-.run(['$rootScope', ($rootScope) ->
+.run(['$rootScope', '$location', 'AuthSrvc', ($rootScope, $location, AuthSrvc) ->
 
   # lodash integration
   $rootScope._ = window._
+
+  # initialization
+  if AuthSrvc.isLoggedIn()
+    # refresh token
+  else if AuthSrvc.getToken() && AuthSrvc.isTokenExpired()
+    # nav to login page
+    $location.path('/login')
+    # clear token
+    AuthSrvc.setToken(null)
+  else
+    # clear token (just in case)
+    AuthSrvc.setToken(null)
 
 ])
 

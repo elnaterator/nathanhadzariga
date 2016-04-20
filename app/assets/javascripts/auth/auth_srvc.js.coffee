@@ -10,6 +10,8 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
 
   token = null
 
+  # helpers
+
   setToken = (t) ->
     if typeof(Storage) != 'undefined'
       localStorage.removeItem(tokenKey) if !t
@@ -25,7 +27,7 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
 
   getTokenClaims = () ->
     try
-      return JSON.parse(atob(token.split('.')[1]))
+      return JSON.parse(atob(getToken().split('.')[1]))
     catch error
       return null
 
@@ -39,6 +41,8 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
     tokenClaims = getTokenClaims() if !tokenClaims
     throw new Error('No token, unable to check if its expired.') if !tokenClaims
     return !tokenClaims.exp || tokenClaims.exp <= Math.round(new Date().getTime() / 1000)
+
+  # http interceptor
 
   request = (config) ->
     config.headers['Authorization'] = 'Token token="' + token + '"' if(token)
