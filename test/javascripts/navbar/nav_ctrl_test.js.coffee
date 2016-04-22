@@ -6,7 +6,7 @@ describe 'NavCtrl', () ->
   User = null
 
   beforeEach( () ->
-    module('natesApp.auth')
+    module('natesApp.nav')
     $scope = {}
     inject(($controller, _$location_, _AuthSrvc_, _User_) ->
       $controller('NavCtrl', {$scope: $scope})

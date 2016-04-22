@@ -13,5 +13,5 @@ class AuthenticationService
       nil
     end
   end
-  
+
 end

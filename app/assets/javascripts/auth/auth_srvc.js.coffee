@@ -2,7 +2,7 @@
 #
 # Authentication service for dealing with token
 #
-angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
+angular.module('natesApp.auth')
 
 .factory('AuthSrvc', ['$q', ($q) ->
 

@@ -7,7 +7,7 @@ describe 'ProfileCtrl', () ->
 
   beforeEach( () ->
     $scope = {}
-    module('natesApp.auth')
+    module('natesApp.profile')
     inject( ($controller, _User_, _$httpBackend_, _$location_) ->
       User = _User_
       $controller('ProfileCtrl', { $scope: $scope })

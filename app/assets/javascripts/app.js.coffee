@@ -2,7 +2,9 @@ angular.module('natesApp',[
   'ngRoute',
   'natesApp.auth',
   'natesApp.manageUsers',
-  'natesApp.blog'
+  'natesApp.blog',
+  'natesApp.nav',
+  'natesApp.profile'
   ])
 
 .run(['$rootScope', '$location', 'AuthSrvc', ($rootScope, $location, AuthSrvc) ->
@@ -32,7 +34,7 @@ angular.module('natesApp',[
   })
   .when('/login', {
     templateUrl: '/template/auth/login',
-    controller: 'LoginCtrl'
+    controller: 'AuthCtrl'
   })
   .when('/profile', {
     templateUrl: '/template/auth/profile',

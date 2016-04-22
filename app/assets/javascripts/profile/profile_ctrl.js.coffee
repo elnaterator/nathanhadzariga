@@ -1,4 +1,4 @@
-angular.module('natesApp.auth')
+angular.module('natesApp.profile', ['natesApp.auth'])
 
 .controller('ProfileCtrl', ['$scope', 'User', '$location', 'ErrSrvc', ($scope, User, $location, ErrSrvc) ->
 

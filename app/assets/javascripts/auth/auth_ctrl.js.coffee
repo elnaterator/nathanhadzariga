@@ -1,6 +1,6 @@
-angular.module('natesApp.auth')
+angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
 
-.controller('LoginCtrl', ['$scope', 'User', 'AuthSrvc', '$location', 'ErrSrvc', ($scope, User, AuthSrvc, $location, ErrSrvc) ->
+.controller('AuthCtrl', ['$scope', 'User', 'AuthSrvc', '$location', 'ErrSrvc', ($scope, User, AuthSrvc, $location, ErrSrvc) ->
 
   $scope.user = new User()
   $scope.isNewUser = false

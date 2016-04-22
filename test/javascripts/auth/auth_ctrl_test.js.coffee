@@ -1,4 +1,4 @@
-describe 'LoginCtrl', () ->
+describe 'AuthCtrl', () ->
 
   $httpBackend = null
   $scope = null
@@ -9,7 +9,7 @@ describe 'LoginCtrl', () ->
     module('natesApp.auth')
     inject( ($controller, _$httpBackend_, _User_, _AuthSrvc_, _$location_) ->
       $scope = {}
-      $controller('LoginCtrl', { $scope : $scope })
+      $controller('AuthCtrl', { $scope : $scope })
       $httpBackend = _$httpBackend_
       User = _User_
       AuthSrvc = _AuthSrvc_

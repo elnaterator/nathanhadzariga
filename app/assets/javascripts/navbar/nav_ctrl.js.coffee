@@ -1,4 +1,4 @@
-angular.module('natesApp.auth')
+angular.module('natesApp.nav', ['natesApp.auth'])
 
 .controller('NavCtrl', ['$scope', 'User', 'AuthSrvc', '$location', ($scope, User, AuthSrvc, $location) ->
 
