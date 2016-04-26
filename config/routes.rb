@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :create, :show, :update, :destroy]
   post '/users/login', to: 'users#login'
   post '/users/signup', to: 'users#signup'
+  post '/users/refresh', to: 'users#refresh'
 
   resources :posts, only: [:index, :create, :show, :update, :destroy] do
     resources :comments, only: [:index, :create, :show, :update, :destroy]

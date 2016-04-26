@@ -30,6 +30,12 @@ class UsersController < ApplicationController
     end
   end
 
+  # POST /users/refresh
+  def refresh
+    set_access_token @current_user
+    render json: {}
+  end
+
   # GET /users
   def index
     @users = User.all.order(id: :asc)

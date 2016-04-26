@@ -11,6 +11,26 @@ class UsersControllerTest < ActionController::TestCase
       assert_routing({ method: 'delete', path: '/users/123' }, { controller: 'users', action: 'destroy', id: '123' })
       assert_routing({ method: 'post', path: '/users/login' }, { controller: 'users', action: 'login' })
       assert_routing({ method: 'post', path: '/users/signup' }, { controller: 'users', action: 'signup'})
+      assert_routing({ method: 'post', path: '/users/refresh' }, { controller: 'users', action: 'refresh'})
+    end
+  end
+
+  describe '#refresh' do
+    describe 'not logged in' do
+      it 'should be unauthorized' do
+        post :refresh
+        assert_response 401
+      end
+    end
+    describe 'logged in' do
+      token = nil
+      before { token = authenticate_as('USER') }
+      it 'should refresh token' do
+        post :refresh
+        assert_response 200
+        return_token = @response.headers['access_token']
+        assert_not_nil return_token
+      end
     end
   end
 
