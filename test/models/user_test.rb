@@ -14,12 +14,17 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
   end
 
-  it "should have email field with validation" do
-    user.email.must_equal 'test@test.com'
-    user.email = nil
-    assert_not user.valid?
-    user.email = 'invalid'
-    assert_not user.valid?
+  describe 'email' do
+    it 'should disallow invalid format' do
+      user.email = 'jfkdlsjfdkls'
+      assert_not user.valid?
+      assert_equal 'is invalid', user.errors[:email][0]
+    end
+    it 'should disallow missing email' do
+      user.email = nil
+      assert_not user.valid?
+      assert_equal "can't be blank", user.errors[:email][0]
+    end
   end
 
   describe 'password' do
