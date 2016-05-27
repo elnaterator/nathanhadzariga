@@ -4,7 +4,7 @@
 #
 angular.module('natesApp.auth')
 
-.factory('AuthSrvc', ['$q', ($q) ->
+.factory('AuthSrvc', ['$q', '$rootScope', ($q, $rootScope) ->
 
   tokenKey = 'natesApp-token'
 
@@ -53,6 +53,12 @@ angular.module('natesApp.auth')
     setToken(token) if token
     response
 
+  responseError = (response) ->
+    if(response.status == 401)
+      setToken(null)
+      $rootScope.$broadcast('response:unauthorized')
+    $q.reject(response)
+
   return {
     setToken: setToken,
     getToken: getToken,
@@ -60,7 +66,8 @@ angular.module('natesApp.auth')
     isLoggedIn: isLoggedIn,
     isTokenExpired: isTokenExpired,
     request: request,
-    response: response
+    response: response,
+    responseError: responseError
   }
 ])
 

@@ -24,6 +24,10 @@ angular.module('natesApp',[
     # clear token (just in case)
     AuthSrvc.setToken(null)
 
+  $rootScope.$on('response:unauthorized', () ->
+    $location.path('/login')
+  )
+
 ])
 
 .config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->

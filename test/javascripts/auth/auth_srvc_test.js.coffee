@@ -6,16 +6,18 @@ describe 'AuthSrvc', () ->
   $httpBackend = null
   $http = null
   AuthSrvc = null
+  $rootScope = null
 
   beforeEach(() ->
     module('natesApp.auth', (_$httpProvider_) ->
       $httpProvider = _$httpProvider_
       spyOn($httpProvider.interceptors, 'push')
     )
-    inject( (_AuthSrvc_, _$httpBackend_, _$http_) ->
+    inject( (_AuthSrvc_, _$httpBackend_, _$http_, _$rootScope_) ->
       AuthSrvc = _AuthSrvc_
       $httpBackend = _$httpBackend_
       $http = _$http_
+      $rootScope = _$rootScope_
     )
   )
 
@@ -30,7 +32,7 @@ describe 'AuthSrvc', () ->
   it 'should store a token as a string', () ->
     AuthSrvc.setToken('someToken')
     expect(AuthSrvc.getToken()).toBe('someToken')
-    
+
 
   describe '#getTokenClaims', () ->
 
@@ -125,3 +127,12 @@ describe 'AuthSrvc', () ->
         $http.get('http://example.com')
         $httpBackend.flush()
         expect(AuthSrvc.getToken()).toBe('someToken')
+
+      it 'should log user out if an unauthorized response is received and broadcast response:unauthorized event', () ->
+        AuthSrvc.setToken('exampleToken')
+        spyOn($rootScope, "$broadcast")
+        $httpBackend.expect('GET', 'http://example.com').respond(401)
+        $http.get('http://example.com')
+        $httpBackend.flush()
+        expect(AuthSrvc.getToken()).toBeNull()
+        expect($rootScope.$broadcast).toHaveBeenCalledWith("response:unauthorized");
