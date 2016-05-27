@@ -62,7 +62,7 @@ describe 'AuthCtrl', () ->
       )
 
       it 'should put error message on scope', () ->
-        expect($scope.errors[0]).toBe('Invalid email or password.')
+        expect($scope.errors()[0]).toBe('Invalid email or password.')
 
       it 'should not nav anywhere', () ->
         expect($location.path).not.toHaveBeenCalled()

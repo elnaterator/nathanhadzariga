@@ -4,34 +4,37 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
 
   $scope.user = new User()
   $scope.isNewUser = false
-  $scope.errors = []
+  errors = []
 
   $scope.toggleNewUser = () ->
-    $scope.errors = []
+    errors = []
     $scope.isNewUser = !$scope.isNewUser
 
   $scope.login = () ->
-    $scope.errors = []
+    errors = []
     $scope.user.$login(
       ( () ->
         User.setCurrent($scope.user)
         $location.path('/')
       ),
       ( (response) ->
-        $scope.errors.push('Invalid email or password.')
+        errors = ['Invalid email or password.']
       )
     )
 
   $scope.signup = () ->
-    $scope.errors = []
+    errors = []
     $scope.user.$signup(
       ( () ->
         User.setCurrent($scope.user)
         $location.path('/')
       ),
       ( (response) ->
-        $scope.errors = _.concat($scope.errors, ErrSrvc.getErrors())
+        errors = _.concat(errors, ErrSrvc.getErrors())
       )
     )
+
+  $scope.errors = () ->
+    errors
 
 ])
