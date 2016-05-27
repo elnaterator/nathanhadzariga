@@ -15,9 +15,9 @@ module.exports = (config) ->
 
     # list of files / patterns to load in the browser
     files: [
-      'vendor/assets/components/lodash/lodash.js',
-      'vendor/assets/components/angular/angular.js',
-      'vendor/assets/components/angular-resource/angular-resource.js',
+      'node_modules/lodash/lodash.js',
+      'node_modules/angular/angular.js',
+      'node_modules/angular-resource/angular-resource.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'app/assets/javascripts/**/*.js',
       'app/assets/javascripts/**/*.js.coffee',
@@ -41,7 +41,7 @@ module.exports = (config) ->
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress']
+    reporters: ['dots']
 
 
     # web server port

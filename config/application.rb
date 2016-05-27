@@ -12,8 +12,8 @@ module Nathanhadzariga
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Add bower components to asset pipeline
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
+    # Add node modules to asset pipeline
+    config.assets.paths << Rails.root.join('node_modules')
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

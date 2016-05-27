@@ -1,15 +1,24 @@
 {
   "name": "nathanhadzariga",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "== README",
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-resource": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "browserify": "^13.0.1",
+    "browserify-incremental": "^3.1.1",
+    "jquery": "~2.1.4",
+    "lodash": "~4.0.0"
+  },
   "devDependencies": {
-    "angular-mocks": "^1.4.8",
+    "angular-mocks": "^1.5.5",
     "coffee-script": "^1.10.0",
     "jasmine-core": "^2.4.1",
-    "karma": "^0.13.16",
-    "karma-coffee-preprocessor": "^0.3.0",
-    "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^0.2.2",
-    "phantomjs": "^1.9.19"
+    "karma": "^0.13.22",
+    "karma-coffee-preprocessor": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "phantomjs-prebuilt": "^2.1.7"
   }
 }
