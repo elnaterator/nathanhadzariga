@@ -2,6 +2,10 @@ require 'test_helper'
 
 class AuthenticationServiceTest < ActiveSupport::TestCase
 
+  it 'should see figaro values' do
+    assert_not_nil Figaro.env.session_timeout_seconds
+  end
+
   describe 'tokenize' do
     it 'should return a valid HS256 JWT' do
       claims = { hello: 'there' }
@@ -10,11 +14,12 @@ class AuthenticationServiceTest < ActiveSupport::TestCase
       assert_equal 'there', decoded_token[0]['hello']
     end
 
-    it 'should have 24 hour expiration date' do
+    it 'should have expiration date from figaro config' do
       claims = { hello: 'there' }
+      expected_exp_tm = Figaro.env.session_timeout_seconds.to_i.seconds.from_now
       token = AuthenticationService.tokenize claims
       decoded_token = JWT.decode(token, Rails.application.secrets.secret_key_base, true, { alg: 'HS256' })
-      assert_equal 24.hours.from_now.to_i, decoded_token[0]['exp']
+      assert_equal expected_exp_tm.to_i, decoded_token[0]['exp']
     end
   end
 

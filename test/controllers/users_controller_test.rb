@@ -71,7 +71,7 @@ class UsersControllerTest < ActionController::TestCase
         assert_equal 1, decoded_token[0]['user_id']
         # expires after 24 hours
         exp_tm = decoded_token[0]['exp']
-        expected_exp_tm = Time.now.to_i + 24 * 3600
+        expected_exp_tm = Time.now.to_i + Figaro.env.session_timeout_seconds.to_i
         assert_equal expected_exp_tm, exp_tm
         # uses correct algorithm
         assert_equal 'HS256', decoded_token[1]['alg']
@@ -111,7 +111,7 @@ class UsersControllerTest < ActionController::TestCase
           assert_not_nil decoded_token[0]['user_id']
           # expires after 24 hours
           exp_tm = decoded_token[0]['exp']
-          expected_exp_tm = Time.now.to_i + 24 * 3600
+          expected_exp_tm = Time.now.to_i + Figaro.env.session_timeout_seconds.to_i
           assert_equal expected_exp_tm, exp_tm
           # uses correct algorithm
           assert_equal 'HS256', decoded_token[1]['alg']

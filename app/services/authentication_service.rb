@@ -1,6 +1,7 @@
 class AuthenticationService
 
-  def self.tokenize(claims, exp=24.hours.from_now)
+  def self.tokenize(claims)
+    exp = Figaro.env.session_timeout_seconds.to_i.seconds.from_now
     claims.merge!({ exp: exp.to_i })
     JWT.encode claims, Rails.application.secrets.secret_key_base, 'HS256'
   end
