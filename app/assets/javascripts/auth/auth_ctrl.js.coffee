@@ -37,4 +37,7 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
   $scope.errors = () ->
     errors
 
+  $scope.$on '$viewContentLoaded', () ->
+    document.getElementById('login-email').focus()
+
 ])
