@@ -16,7 +16,13 @@
   </nav>
 
   <div class="container">
+
+    <div ng-repeat="msg in flashMessages" ng-class="msg.type" class="flash">
+      {{msg.msg}}
+    </div>
+
     <div ng-view></div>
+
   </div>
 
 </div>

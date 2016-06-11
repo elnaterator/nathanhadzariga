@@ -5,16 +5,19 @@ describe 'AuthCtrl', () ->
   User = null
   AuthSrvc = null
   $location = null
+
   beforeEach(() ->
     module('natesApp.auth')
-    inject( ($controller, _$httpBackend_, _User_, _AuthSrvc_, _$location_) ->
+    inject( ($controller, _$httpBackend_, _User_, _AuthSrvc_, _$location_, $rootScope) ->
       $scope = {}
       $scope.$on = () ->
-      $controller('AuthCtrl', { $scope : $scope })
+      $rootScope.flash = () ->
+      $controller('AuthCtrl', { $scope : $scope, $rootScope: $rootScope })
       $httpBackend = _$httpBackend_
       User = _User_
       AuthSrvc = _AuthSrvc_
       $location = _$location_
+
     )
   )
 
@@ -61,9 +64,6 @@ describe 'AuthCtrl', () ->
         $scope.login()
         $httpBackend.flush()
       )
-
-      it 'should put error message on scope', () ->
-        expect($scope.errors()[0]).toBe('Invalid email or password.')
 
       it 'should not nav anywhere', () ->
         expect($location.path).not.toHaveBeenCalled()

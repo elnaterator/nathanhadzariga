@@ -11,6 +11,7 @@ angular.module('natesApp',[
 
   # lodash integration
   $rootScope._ = window._
+  flashMessages = []
 
   # initialization
   if AuthSrvc.isLoggedIn()
@@ -24,9 +25,31 @@ angular.module('natesApp',[
     # clear token (just in case)
     AuthSrvc.setToken(null)
 
-  $rootScope.$on('response:unauthorized', () ->
+  #
+  # Flash message handling
+  #
+
+  # Add a message that will be displayed on next view load
+  # types are 'error', and 'note'
+  $rootScope.flash = (msg, type) ->
+    msg = { msg: msg, type: type }
+    flashMessages.push msg
+
+  # render and clear flash messages
+  $rootScope.$on '$viewContentLoaded', () ->
+    $rootScope.flashMessages = flashMessages
+    flashMessages = []
+
+  #
+  # Global event handling
+  #
+
+  # nav to login page for an unauthorized response
+  $rootScope.$on 'response:unauthorized', () ->
     $location.path('/login')
-  )
+    $rootScope.flash('Please login again to continue using this website.', 'note')
+
+  $rootScope.flash('Test message', 'note')
 
 ])
 

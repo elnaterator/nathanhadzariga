@@ -54,4 +54,17 @@ body {
     padding: 10px 30px;
   }
 
+  // Flash messages
+  div.flash {
+    background: #333;
+    padding: 5px 15px;
+    margin: 5px 0px;
+    &.error {
+      color: #f58;
+    }
+    &.note {
+      color: #acf;
+    }
+  }
+
 }
