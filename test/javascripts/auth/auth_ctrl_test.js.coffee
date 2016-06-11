@@ -12,6 +12,7 @@ describe 'AuthCtrl', () ->
       $scope = {}
       $scope.$on = () ->
       $rootScope.flash = () ->
+      $rootScope.flashNow = () ->
       $controller('AuthCtrl', { $scope : $scope, $rootScope: $rootScope })
       $httpBackend = _$httpBackend_
       User = _User_

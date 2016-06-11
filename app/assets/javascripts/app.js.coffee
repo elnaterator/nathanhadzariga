@@ -12,6 +12,7 @@ angular.module('natesApp',[
   # lodash integration
   $rootScope._ = window._
   flashMessages = []
+  $rootScope.flashMessages = []
 
   # initialization
   if AuthSrvc.isLoggedIn()
@@ -29,11 +30,24 @@ angular.module('natesApp',[
   # Flash message handling
   #
 
+  # Render flash messages immediately, not on next view load
+  $rootScope.flashNow = (msg, type) ->
+    $rootScope.flash(msg, type)
+    $rootScope.flashMessages = flashMessages
+    flashMessages = []
+
   # Add a message that will be displayed on next view load
   # types are 'error', and 'note'
   $rootScope.flash = (msg, type) ->
-    msg = { msg: msg, type: type }
-    flashMessages.push msg
+    if _.isArray(msg)
+      addFlashMsg(m, type) for m in msg
+    else
+      addFlashMsg(msg, type)
+
+  addFlashMsg = (msg, type) ->
+    msgObj = { msg: msg, type: type }
+    console.log(msgObj)
+    flashMessages.push msgObj
 
   # render and clear flash messages
   $rootScope.$on '$viewContentLoaded', () ->

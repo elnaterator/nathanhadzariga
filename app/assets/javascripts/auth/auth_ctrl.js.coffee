@@ -15,7 +15,7 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
         $location.path('/')
       ),
       ( (response) ->
-        $rootScope.flash('Invalid email or password.', 'error')
+        $rootScope.flashNow('Invalid email or password.', 'error')
       )
     )
 
@@ -26,7 +26,7 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
         $location.path('/')
       ),
       ( (response) ->
-        $rootScope.flash(ErrSrvc.getErrors(), 'error')
+        $rootScope.flashNow(ErrSrvc.getErrors(), 'error')
       )
     )
 
