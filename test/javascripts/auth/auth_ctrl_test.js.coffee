@@ -9,6 +9,7 @@ describe 'AuthCtrl', () ->
     module('natesApp.auth')
     inject( ($controller, _$httpBackend_, _User_, _AuthSrvc_, _$location_) ->
       $scope = {}
+      $scope.$on = () ->
       $controller('AuthCtrl', { $scope : $scope })
       $httpBackend = _$httpBackend_
       User = _User_
