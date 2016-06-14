@@ -7,6 +7,7 @@ angular.module('natesApp.auth', ['ngResource', 'natesApp.err'])
 
   $scope.toggleNewUser = () ->
     $scope.isNewUser = !$scope.isNewUser
+    $rootScope.flashNow([])
 
   $scope.login = () ->
     $scope.user.$login(

@@ -32,22 +32,20 @@ angular.module('natesApp',[
 
   # Render flash messages immediately, not on next view load
   $rootScope.flashNow = (msg, type) ->
-    $rootScope.flash(msg, type)
-    $rootScope.flashMessages = flashMessages
-    flashMessages = []
+    $rootScope.flashMessages = buildFlashMessages(msg, type)
 
   # Add a message that will be displayed on next view load
   # types are 'error', and 'note'
   $rootScope.flash = (msg, type) ->
-    if _.isArray(msg)
-      addFlashMsg(m, type) for m in msg
-    else
-      addFlashMsg(msg, type)
+    flashMessages = flashMessages.concat(buildFlashMessages(msg, type))
 
-  addFlashMsg = (msg, type) ->
-    msgObj = { msg: msg, type: type }
-    console.log(msgObj)
-    flashMessages.push msgObj
+  buildFlashMessages = (msg, type) ->
+    messages = []
+    if _.isArray(msg)
+      messages.push({ msg: m, type: type }) for m in msg
+    else
+      messages.push({ msg: msg, type: type })
+    return messages
 
   # render and clear flash messages
   $rootScope.$on '$viewContentLoaded', () ->
@@ -62,8 +60,6 @@ angular.module('natesApp',[
   $rootScope.$on 'response:unauthorized', () ->
     $location.path('/login')
     $rootScope.flash('Please login again to continue using this website.', 'note')
-
-  $rootScope.flash('Test message', 'note')
 
 ])
 
