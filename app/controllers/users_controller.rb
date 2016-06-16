@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   # POST /users/login
   def login
     @user = User.find_by(:email => user_params['email'])
-    if @user.authenticate(user_params['password'])
+    if @user && @user.authenticate(user_params['password'])
       set_access_token @user
       render 'users/show'
     else
