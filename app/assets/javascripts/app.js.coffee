@@ -58,8 +58,9 @@ angular.module('natesApp',[
 
   # nav to login page for an unauthorized response
   $rootScope.$on 'response:unauthorized', () ->
-    $location.path('/login')
-    $rootScope.flash('Please login again to continue using this website.', 'note')
+    if $location.path() != '/login'
+      $rootScope.flash('Please login again to continue using this website.', 'note')
+      $location.path('/login')
 
 ])
 
