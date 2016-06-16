@@ -7,7 +7,7 @@ angular.module('natesApp',[
   'natesApp.profile'
   ])
 
-.run(['$rootScope', '$location', 'AuthSrvc', ($rootScope, $location, AuthSrvc) ->
+.run(['$rootScope', '$location', 'AuthSrvc', 'User', ($rootScope, $location, AuthSrvc, User) ->
 
   # lodash integration
   $rootScope._ = window._
@@ -16,15 +16,13 @@ angular.module('natesApp',[
 
   # initialization
   if AuthSrvc.isLoggedIn()
-    # refresh token
+    User.refreshToken()
   else if AuthSrvc.getToken() && AuthSrvc.isTokenExpired()
-    # nav to login page
+    $rootScope.flash('Please login again to continue using this website.', 'note')
     $location.path('/login')
-    # clear token
     AuthSrvc.setToken(null)
   else
-    # clear token (just in case)
-    AuthSrvc.setToken(null)
+    AuthSrvc.setToken(null) # clear token (just in case)
 
   #
   # Flash message handling

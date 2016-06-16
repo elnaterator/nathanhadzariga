@@ -62,3 +62,15 @@ describe 'User', () ->
       User.logout()
       expect(AuthSrvc.getToken()).toBeNull()
       expect(User.getCurrent()).toBeNull()
+
+  describe '#refreshToken', () ->
+
+    it 'should send refresh token request and save response token', () ->
+      AuthSrvc.setToken('someToken')
+      $httpBackend.expect('POST', '/users/refresh', {}, (headers) ->
+        return headers.Authorization == 'Token token="someToken"'
+      ).respond(200, {}, {access_token: 'anotherToken'})
+      user = new User({})
+      user.$refreshToken()
+      $httpBackend.flush()
+      expect(AuthSrvc.getToken()).toBe('anotherToken')

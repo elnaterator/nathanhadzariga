@@ -17,6 +17,10 @@ angular.module('natesApp.auth')
     signup: {
       method: 'POST',
       url: '/users/signup',
+    },
+    refreshToken: {
+      method: 'POST',
+      url: '/users/refresh',
     }
   })
 
