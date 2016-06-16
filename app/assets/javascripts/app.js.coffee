@@ -11,22 +11,13 @@ angular.module('natesApp',[
 
   # lodash integration
   $rootScope._ = window._
-  flashMessages = []
-  $rootScope.flashMessages = []
-
-  # initialization
-  if AuthSrvc.isLoggedIn()
-    User.refreshToken()
-  else if AuthSrvc.getToken() && AuthSrvc.isTokenExpired()
-    $rootScope.flash('Please login again to continue using this website.', 'note')
-    $location.path('/login')
-    AuthSrvc.setToken(null)
-  else
-    AuthSrvc.setToken(null) # clear token (just in case)
 
   #
   # Flash message handling
   #
+
+  flashMessages = []
+  $rootScope.flashMessages = []
 
   # Render flash messages immediately, not on next view load
   $rootScope.flashNow = (msg, type) ->
@@ -59,6 +50,19 @@ angular.module('natesApp',[
     if $location.path() != '/login'
       $rootScope.flash('Please login again to continue using this website.', 'note')
       $location.path('/login')
+
+  #
+  # initialization
+  #
+
+  if AuthSrvc.isLoggedIn()
+    User.refreshToken()
+  else if AuthSrvc.getToken() && AuthSrvc.isTokenExpired()
+    $rootScope.flash('Please login again to continue using this website.', 'note')
+    $location.path('/login')
+    AuthSrvc.setToken(null)
+  else
+    AuthSrvc.setToken(null) # clear token (just in case)
 
 ])
 
