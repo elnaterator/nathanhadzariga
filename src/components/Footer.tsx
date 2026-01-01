@@ -24,7 +24,12 @@ export default function Footer() {
       name: "Email",
       url: "mailto:your.email@example.com", // TODO: Update with actual email
       icon: (
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
